@@ -4,6 +4,9 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
 import { CartProvider } from "@/contexts/cart-context"
+// Importer directement depuis @vercel/analytics/next
+import { Analytics } from "@vercel/analytics/next"
+import { Suspense } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -22,8 +25,11 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <CartProvider>{children}</CartProvider>
+        <Suspense>
+          <CartProvider>{children}</CartProvider>
+        </Suspense>
         <Toaster />
+        <Analytics />
       </body>
     </html>
   )

@@ -77,7 +77,7 @@ const guidesData = {
     pages: 18,
     lastUpdate: "28/04/2025",
     color: "green",
-    paymentLink: "https://buy.stripe.com/test_28EdRbbdXcf28TC0ykfEk00",
+    paymentLink: "https://buy.stripe.com/test_6oUfZjbdXgvic5O80MfEk01",
   },
   "5": {
     id: "5",
