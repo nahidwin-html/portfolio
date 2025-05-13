@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%;
+    --background: 160 50% 3%;
     --foreground: 210 40% 98%;
 
     --card: 222.2 84% 4.9%;
@@ -16,16 +16,16 @@
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 160 84% 39%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 160 94% 30%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
@@ -48,16 +48,16 @@
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 160 84% 39%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 160 94% 30%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
@@ -71,6 +71,40 @@
     @apply border-border;
   }
   body {
-    @apply bg-black text-foreground;
+    @apply bg-gradient-to-br from-blue-950 via-red-950/30 to-green-950 text-foreground min-h-screen;
+  }
+}
+
+.tri-gradient {
+  @apply bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700;
+}
+
+.tri-gradient-subtle {
+  @apply bg-gradient-to-r from-blue-900/50 via-red-900/50 to-green-900/50;
+}
+
+.tri-gradient-bg {
+  @apply bg-gradient-to-br from-blue-950/30 via-red-950/30 to-green-950/30;
+}
+
+/* Suppression de la classe problématique tri-border qui utilisait border-gradient-to-r */
+
+.hot-badge {
+  @apply bg-gradient-to-r from-red-600 to-orange-500 text-white;
+}
+
+.sale-pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
   }
 }

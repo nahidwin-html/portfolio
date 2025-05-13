@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { toast } from "@/components/ui/use-toast"
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCart()
@@ -19,40 +20,87 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("card")
   const [isProcessing, setIsProcessing] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    email: "",
+    address: "",
+  })
 
   if (items.length === 0 && !isComplete) {
     router.push("/cart")
     return null
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleCustomerInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setCustomerInfo((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsProcessing(true)
 
-    // Simuler un traitement de paiement
-    setTimeout(() => {
+    try {
+      // Générer un ID de commande unique
+      const orderId = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`
+
+      // Envoyer l'email de confirmation
+      const response = await fetch("/api/order-confirmation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          customerEmail: customerInfo.email,
+          customerName: customerInfo.name,
+          orderId,
+          items,
+          totalAmount: getTotalPrice(),
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de l'envoi de l'email de confirmation")
+      }
+
+      // Simuler un traitement de paiement
+      setTimeout(() => {
+        setIsProcessing(false)
+        setIsComplete(true)
+        clearCart()
+      }, 2000)
+    } catch (error) {
+      console.error("Erreur:", error)
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors du traitement de votre commande. Veuillez réessayer.",
+        variant: "destructive",
+      })
       setIsProcessing(false)
-      setIsComplete(true)
-      clearCart()
-    }, 2000)
+    }
   }
 
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950 text-white">
         <div className="container mx-auto py-16 px-4 max-w-3xl">
           <div className="text-center space-y-6">
             <div className="flex justify-center">
-              <div className="rounded-full bg-green-600 p-4">
+              <div className="rounded-full bg-gradient-to-r from-green-600 to-blue-600 p-4">
                 <CheckCircle className="h-16 w-16" />
               </div>
             </div>
             <h1 className="text-3xl font-bold">Paiement réussi !</h1>
-            <p className="text-xl text-blue-300">
+            <p className="text-xl text-green-200">
               Merci pour votre achat. Vous recevrez vos guides par email dans les prochaines minutes.
             </p>
             <Link href="/">
-              <Button className="bg-blue-600 hover:bg-blue-700 mt-4">Retour à l'accueil</Button>
+              <Button className="bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700 mt-4">
+                Retour à l'accueil
+              </Button>
             </Link>
           </div>
         </div>
@@ -61,7 +109,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950 text-white">
       <div className="container mx-auto py-8 px-4">
         <Link href="/cart" className="inline-flex items-center text-blue-500 hover:text-blue-400 mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -72,7 +120,48 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-blue-950/30 border border-blue-900 rounded-lg p-6 mb-6">
+            <div className="bg-gradient-to-br from-blue-950/30 to-green-950/30 border border-blue-800/50 rounded-lg p-6 mb-6">
+              <h2 className="text-xl font-bold mb-4">Informations client</h2>
+              <div className="space-y-4 mb-6">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Nom complet</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={customerInfo.name}
+                    onChange={handleCustomerInfoChange}
+                    placeholder="Votre nom"
+                    required
+                    className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={customerInfo.email}
+                    onChange={handleCustomerInfoChange}
+                    placeholder="votre@email.com"
+                    required
+                    className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                  />
+                  <p className="text-xs text-green-200">Vos guides seront envoyés à cette adresse email.</p>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="address">Adresse (facultatif)</Label>
+                  <Input
+                    id="address"
+                    name="address"
+                    value={customerInfo.address}
+                    onChange={handleCustomerInfoChange}
+                    placeholder="Votre adresse"
+                    className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                  />
+                </div>
+              </div>
+
               <h2 className="text-xl font-bold mb-4">Méthode de paiement</h2>
 
               <Tabs defaultValue="card" onValueChange={setPaymentMethod} className="w-full">
@@ -90,7 +179,7 @@ export default function CheckoutPage() {
                       <Input
                         id="cardNumber"
                         placeholder="1234 5678 9012 3456"
-                        className="bg-blue-950/50 border-blue-800 text-white"
+                        className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
                         required
                       />
                     </div>
@@ -101,7 +190,7 @@ export default function CheckoutPage() {
                         <Input
                           id="expiry"
                           placeholder="MM/AA"
-                          className="bg-blue-950/50 border-blue-800 text-white"
+                          className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
                           required
                         />
                       </div>
@@ -110,24 +199,28 @@ export default function CheckoutPage() {
                         <Input
                           id="cvc"
                           placeholder="123"
-                          className="bg-blue-950/50 border-blue-800 text-white"
+                          className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
                           required
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="name">Nom sur la carte</Label>
+                      <Label htmlFor="cardName">Nom sur la carte</Label>
                       <Input
-                        id="name"
+                        id="cardName"
                         placeholder="John Doe"
-                        className="bg-blue-950/50 border-blue-800 text-white"
+                        className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
                         required
                       />
                     </div>
 
                     <div className="pt-4">
-                      <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={isProcessing}>
+                      <Button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700"
+                        disabled={isProcessing || !customerInfo.name || !customerInfo.email}
+                      >
                         {isProcessing ? (
                           "Traitement en cours..."
                         ) : (
@@ -139,7 +232,7 @@ export default function CheckoutPage() {
                       </Button>
                     </div>
 
-                    <div className="flex items-center justify-center text-sm text-blue-300 mt-4">
+                    <div className="flex items-center justify-center text-sm text-green-200 mt-4">
                       <Lock className="h-4 w-4 mr-2" />
                       Paiement sécurisé par SSL
                     </div>
@@ -152,11 +245,11 @@ export default function CheckoutPage() {
                       <span className="text-[#0079C1]">Pay</span>
                       <span className="text-[#00457C]">Pal</span>
                     </div>
-                    <p className="text-blue-300">Vous serez redirigé vers PayPal pour finaliser votre paiement.</p>
+                    <p className="text-green-200">Vous serez redirigé vers PayPal pour finaliser votre paiement.</p>
                     <Button
                       onClick={handleSubmit}
                       className="bg-[#0070BA] hover:bg-[#005ea6] text-white"
-                      disabled={isProcessing}
+                      disabled={isProcessing || !customerInfo.name || !customerInfo.email}
                     >
                       {isProcessing ? "Traitement en cours..." : `Payer avec PayPal (${getTotalPrice().toFixed(2)} €)`}
                     </Button>
@@ -195,8 +288,8 @@ export default function CheckoutPage() {
                       </div>
                     </RadioGroup>
 
-                    <div className="border border-blue-800 rounded-lg p-4 bg-blue-950/50">
-                      <p className="text-sm text-blue-300 mb-2">Adresse de paiement:</p>
+                    <div className="border border-blue-800/50 rounded-lg p-4 bg-gradient-to-br from-blue-950/30 to-green-950/30">
+                      <p className="text-sm text-green-200 mb-2">Adresse de paiement:</p>
                       <p className="font-mono text-sm bg-blue-900/50 p-2 rounded">
                         bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
                       </p>
@@ -205,7 +298,7 @@ export default function CheckoutPage() {
                     <Button
                       onClick={handleSubmit}
                       className="w-full bg-[#F7931A] hover:bg-[#E57300]"
-                      disabled={isProcessing}
+                      disabled={isProcessing || !customerInfo.name || !customerInfo.email}
                     >
                       {isProcessing
                         ? "Traitement en cours..."
@@ -219,7 +312,7 @@ export default function CheckoutPage() {
                     <Button
                       onClick={handleSubmit}
                       className="flex flex-col items-center justify-center h-24 bg-black hover:bg-gray-900 border border-gray-700"
-                      disabled={isProcessing}
+                      disabled={isProcessing || !customerInfo.name || !customerInfo.email}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -244,7 +337,7 @@ export default function CheckoutPage() {
                     <Button
                       onClick={handleSubmit}
                       className="flex flex-col items-center justify-center h-24 bg-white hover:bg-gray-100 text-black border border-gray-300"
-                      disabled={isProcessing}
+                      disabled={isProcessing || !customerInfo.name || !customerInfo.email}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -267,7 +360,7 @@ export default function CheckoutPage() {
                       Google Pay
                     </Button>
                   </div>
-                  <p className="text-center text-blue-300 text-sm mt-4">
+                  <p className="text-center text-green-200 text-sm mt-4">
                     Vous serez redirigé vers votre application de paiement mobile.
                   </p>
                 </TabsContent>
@@ -276,7 +369,7 @@ export default function CheckoutPage() {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-blue-950/30 border border-blue-900 rounded-lg p-6 sticky top-8">
+            <div className="bg-gradient-to-br from-blue-950/30 to-green-950/30 border border-blue-800/50 rounded-lg p-6 sticky top-8">
               <h2 className="text-xl font-bold mb-4">Récapitulatif</h2>
 
               <div className="space-y-4 mb-6">
@@ -284,21 +377,21 @@ export default function CheckoutPage() {
                   <div key={item.id} className="flex justify-between">
                     <div>
                       <p className="font-medium">{item.title}</p>
-                      <p className="text-sm text-blue-300">{item.category}</p>
+                      <p className="text-sm text-green-200">{item.category}</p>
                     </div>
                     <p className="font-bold">{item.price.toFixed(2)} €</p>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t border-blue-800 pt-4 mb-6">
+              <div className="border-t border-blue-800/50 pt-4 mb-6">
                 <div className="flex justify-between font-bold text-lg">
                   <p>Total</p>
                   <p>{getTotalPrice().toFixed(2)} €</p>
                 </div>
               </div>
 
-              <div className="bg-blue-900/30 p-4 rounded-lg text-sm text-blue-200 space-y-2">
+              <div className="bg-gradient-to-r from-blue-900/20 to-green-900/20 p-4 rounded-lg text-sm text-green-200 space-y-2">
                 <div className="flex items-start">
                   <Lock className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
                   <p>Paiement 100% sécurisé avec cryptage SSL</p>

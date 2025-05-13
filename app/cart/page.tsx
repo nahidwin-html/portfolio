@@ -15,7 +15,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950 text-white">
       <div className="container mx-auto py-8 px-4">
         <Link href="/" className="inline-flex items-center text-blue-500 hover:text-blue-400 mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -26,16 +26,18 @@ export default function CartPage() {
 
         {items.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-xl text-blue-300 mb-6">Votre panier est vide</p>
+            <p className="text-xl text-green-200 mb-6">Votre panier est vide</p>
             <Link href="/">
-              <Button className="bg-blue-600 hover:bg-blue-700">Découvrir nos guides</Button>
+              <Button className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
+                Découvrir nos guides
+              </Button>
             </Link>
           </div>
         ) : (
           <>
-            <div className="bg-blue-950/30 border border-blue-900 rounded-lg overflow-hidden mb-6">
+            <div className="bg-gradient-to-br from-blue-950/30 to-green-950/30 border border-blue-800/50 rounded-lg overflow-hidden mb-6">
               <table className="w-full">
-                <thead className="bg-blue-900/50">
+                <thead className="bg-gradient-to-r from-blue-900/50 to-green-900/50">
                   <tr>
                     <th className="text-left p-4">Produit</th>
                     <th className="text-right p-4">Prix</th>
@@ -44,7 +46,7 @@ export default function CartPage() {
                 </thead>
                 <tbody>
                   {items.map((item) => (
-                    <tr key={item.id} className="border-t border-blue-900">
+                    <tr key={item.id} className="border-t border-blue-800/50">
                       <td className="p-4">
                         <div className="flex items-center">
                           <div className="w-16 h-16 rounded overflow-hidden mr-4 hidden sm:block">
@@ -56,7 +58,7 @@ export default function CartPage() {
                           </div>
                           <div>
                             <h3 className="font-medium">{item.title}</h3>
-                            <p className="text-blue-300 text-sm">{item.category}</p>
+                            <p className="text-green-200 text-sm">{item.category}</p>
                           </div>
                         </div>
                       </td>
@@ -74,7 +76,7 @@ export default function CartPage() {
                     </tr>
                   ))}
                 </tbody>
-                <tfoot className="bg-blue-900/30">
+                <tfoot className="bg-gradient-to-r from-blue-900/30 to-green-900/30">
                   <tr>
                     <td className="p-4 font-bold text-lg">Total</td>
                     <td className="p-4 text-right font-bold text-lg">{getTotalPrice().toFixed(2)} €</td>
@@ -85,12 +87,19 @@ export default function CartPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row justify-between gap-4">
-              <Button variant="outline" onClick={clearCart} className="border-red-700 text-red-500 hover:bg-red-950/30">
+              <Button
+                variant="outline"
+                onClick={clearCart}
+                className="border-red-700/50 text-red-500 hover:bg-red-950/30"
+              >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Vider le panier
               </Button>
 
-              <Button className="bg-green-600 hover:bg-green-700" onClick={handleCheckout}>
+              <Button
+                className="bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700"
+                onClick={handleCheckout}
+              >
                 <CreditCard className="mr-2 h-4 w-4" />
                 Procéder au paiement
               </Button>

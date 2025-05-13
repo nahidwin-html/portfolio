@@ -8,9 +8,9 @@ import { CartProvider } from "@/contexts/cart-context"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Digital Deals - Discord Nitro à 3€ | Snapchat+ à 5€ | Robux à 5€",
+  title: "T3CH-FRANCE - Discord Nitro à 3€ | Snapchat+ à 0,50€ | Robux à 5€",
   description:
-    "Guides exclusifs pour obtenir Discord Nitro à 3€, Snapchat+ à 5€, et des Robux à seulement 5€. Méthodes garanties et faciles à suivre.",
+    "Guides exclusifs pour obtenir Discord Nitro à 3€, Snapchat+ à 0,50€, et des Robux à seulement 5€. Méthodes garanties et faciles à suivre.",
     generator: 'v0.dev'
 }
 

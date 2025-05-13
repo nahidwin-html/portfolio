@@ -30,19 +30,19 @@ const config = {
           foreground: "#ffffff",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "#10b981", // Vert émeraude
+          foreground: "#ffffff",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "#ef4444", // Rouge vif
+          foreground: "#ffffff",
         },
         muted: {
           DEFAULT: "#0f172a", // Bleu très foncé presque noir
           foreground: "#e2e8f0",
         },
         accent: {
-          DEFAULT: "#1e3a8a", // Bleu foncé
+          DEFAULT: "#059669", // Vert foncé
           foreground: "#ffffff",
         },
         popover: {
@@ -65,6 +65,32 @@ const config = {
           800: "#1e40af",
           900: "#1e3a8a",
           950: "#172554",
+        },
+        green: {
+          50: "#f0fdf4",
+          100: "#dcfce7",
+          200: "#bbf7d0",
+          300: "#86efac",
+          400: "#4ade80",
+          500: "#22c55e",
+          600: "#16a34a",
+          700: "#15803d",
+          800: "#166534",
+          900: "#14532d",
+          950: "#052e16",
+        },
+        red: {
+          50: "#fef2f2",
+          100: "#fee2e2",
+          200: "#fecaca",
+          300: "#fca5a5",
+          400: "#f87171",
+          500: "#ef4444",
+          600: "#dc2626",
+          700: "#b91c1c",
+          800: "#991b1b",
+          900: "#7f1d1d",
+          950: "#450a0a",
         },
       },
       borderRadius: {
