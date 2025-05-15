@@ -188,7 +188,7 @@ export default function GuidePage({ params }: { params: { id: string } }) {
 
   if (!guide) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-950 via-red-950 to-green-950 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-red-950 to-green-950 text-white flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"></div>
           <p className="mt-4">Chargement...</p>
@@ -227,18 +227,18 @@ export default function GuidePage({ params }: { params: { id: string } }) {
   const getIconClass = () => {
     switch (guide.color) {
       case "blue":
-        return "bg-gradient-to-r from-black to-blue-700"
+        return "bg-gradient-to-r from-gray-950 to-blue-700"
       case "red":
-        return "bg-gradient-to-r from-black to-red-700"
+        return "bg-gradient-to-r from-gray-950 to-red-700"
       case "green":
-        return "bg-gradient-to-r from-black to-green-700"
+        return "bg-gradient-to-r from-gray-950 to-green-700"
       default:
         return "tri-gradient"
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-blue-950 to-green-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-green-950 text-white">
       <div className="container mx-auto py-8 px-4">
         <Link href="/guides" className="inline-flex items-center text-blue-500 hover:text-blue-400 mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
