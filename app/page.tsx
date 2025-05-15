@@ -33,7 +33,7 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-950 via-red-950 to-green-950 text-white">
-      <header className="sticky top-0 z-10 border-b border-blue-800/50 bg-gradient-to-br from-blue-950 via-red-950 to-green-950">
+      <header className="sticky top-0 z-10 border-b border-blue-800/50 bg-gradient-to-br from-black via-blue-950/30 to-green-950">
         <div className="container flex h-16 items-center justify-between py-4">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
@@ -71,7 +71,7 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1">
-        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-blue-950 via-red-950 to-green-950">
+        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-black via-blue-950 to-green-950">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="space-y-4">
@@ -125,7 +125,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-br from-blue-950 via-red-950 to-green-950">
+        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-br from-black via-blue-950 to-green-950">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -247,7 +247,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-br from-blue-950 via-red-950 to-green-950">
+        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-br from-black via-blue-950 to-green-950">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="space-y-4">
@@ -285,7 +285,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-12 md:py-16 bg-gradient-to-r from-blue-600 via-red-600 to-green-600 text-white">
+        <section className="py-12 md:py-16 bg-gradient-to-r from-black via-blue-600 to-green-600 text-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center text-center space-y-4">
               <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -306,7 +306,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="border-t border-blue-800/50 bg-gradient-to-br from-blue-950 via-red-950 to-green-950">
+      <footer className="border-t border-blue-800/50 bg-gradient-to-br from-black via-blue-950 to-green-950">
         <div className="container flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex flex-col gap-2">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">

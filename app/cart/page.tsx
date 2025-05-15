@@ -15,7 +15,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-blue-950 to-green-950 text-white">
       <div className="container mx-auto py-8 px-4">
         <Link href="/" className="inline-flex items-center text-blue-500 hover:text-blue-400 mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />

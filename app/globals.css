@@ -71,26 +71,26 @@
     @apply border-border;
   }
   body {
-    @apply bg-gradient-to-br from-blue-950 via-red-950/30 to-green-950 text-foreground min-h-screen;
+    @apply bg-gradient-to-br from-black via-blue-950/30 to-green-950 text-foreground min-h-screen;
   }
 }
 
 .tri-gradient {
-  @apply bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700;
+  @apply bg-gradient-to-r from-black via-blue-600 to-green-600 hover:from-gray-900 hover:via-blue-700 hover:to-green-700;
 }
 
 .tri-gradient-subtle {
-  @apply bg-gradient-to-r from-blue-900/50 via-red-900/50 to-green-900/50;
+  @apply bg-gradient-to-r from-black via-blue-900/50 to-green-900/50;
 }
 
 .tri-gradient-bg {
-  @apply bg-gradient-to-br from-blue-950/30 via-red-950/30 to-green-950/30;
+  @apply bg-gradient-to-br from-black via-blue-950/30 to-green-950/30;
 }
 
 /* Suppression de la classe problématique tri-border qui utilisait border-gradient-to-r */
 
 .hot-badge {
-  @apply bg-gradient-to-r from-red-600 to-orange-500 text-white;
+  @apply bg-gradient-to-r from-black to-red-600 text-white;
 }
 
 .sale-pulse {

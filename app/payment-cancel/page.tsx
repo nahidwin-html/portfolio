@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 
 export default function PaymentCancelPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-950 to-green-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-blue-950 to-green-950 text-white">
       <div className="container mx-auto py-16 px-4 max-w-3xl">
         <div className="text-center space-y-6">
           <div className="flex justify-center">

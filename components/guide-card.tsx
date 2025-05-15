@@ -94,7 +94,7 @@ export default function GuideCard({ id, title, price, image, category, rating, d
   }
 
   return (
-    <Card className="overflow-hidden h-full flex flex-col bg-gradient-to-br from-blue-950 via-red-950/30 to-green-950 border-blue-800/50 text-white">
+    <Card className="overflow-hidden h-full flex flex-col bg-gradient-to-br from-black via-blue-950/30 to-green-950 border-blue-800/50 text-white">
       <Link href={`/guides/${id}`}>
         <div className="overflow-hidden h-[200px] relative">
           {category.toLowerCase() === "pack complet" && (
