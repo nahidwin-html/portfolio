@@ -71,28 +71,30 @@
     @apply border-border;
   }
   body {
-    @apply bg-gradient-to-br from-black via-red-950/30 to-gray-950 text-foreground min-h-screen;
+    @apply bg-gradient-to-br from-black-950 via-red-950/30 to-gray-950 text-foreground min-h-screen;
   }
 }
 
-.tri-gradient {
-  @apply bg-gradient-to-r from-black via-red-600 to-gray-900 hover:from-gray-900 hover:via-red-700 hover:to-black;
-}
+@layer components {
+  .tri-gradient {
+    @apply bg-gradient-to-r from-black-950 via-red-600 to-gray-900 hover:from-gray-900 hover:via-red-700 hover:to-black-950;
+  }
 
-.tri-gradient-subtle {
-  @apply bg-gradient-to-r from-black via-red-900/50 to-gray-900/50;
-}
+  .tri-gradient-subtle {
+    @apply bg-gradient-to-r from-black-950 via-red-900/50 to-gray-900/50;
+  }
 
-.tri-gradient-bg {
-  @apply bg-gradient-to-br from-black via-red-950/30 to-gray-950/30;
-}
+  .tri-gradient-bg {
+    @apply bg-gradient-to-br from-black-950 via-red-950/30 to-gray-950/30;
+  }
 
-.hot-badge {
-  @apply bg-gradient-to-r from-black to-red-600 text-white;
-}
+  .hot-badge {
+    @apply bg-gradient-to-r from-black-950 to-red-600 text-white;
+  }
 
-.sale-pulse {
-  animation: pulse 2s infinite;
+  .sale-pulse {
+    animation: pulse 2s infinite;
+  }
 }
 
 @keyframes pulse {
