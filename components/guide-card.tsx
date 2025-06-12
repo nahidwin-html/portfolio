@@ -61,9 +61,9 @@ export default function GuideCard({ id, title, price, image, category, rating, d
   const getBadgeClass = () => {
     switch (category.toLowerCase()) {
       case "discord":
-        return "bg-gradient-to-r from-red-800 to-red-600 text-red-100 border-red-600/50"
+        return "bg-gradient-to-r from-gray-800 to-gray-700 text-gray-200 border-gray-600"
       case "snapchat":
-        return "bg-gradient-to-r from-red-700 to-red-800 text-red-100 border-red-600/50"
+        return "bg-gradient-to-r from-gray-800 to-gray-700 text-gray-200 border-gray-600"
       case "pack complet":
         return "hot-badge"
       default:
@@ -71,22 +71,8 @@ export default function GuideCard({ id, title, price, image, category, rating, d
     }
   }
 
-  // Déterminer la couleur du texte de description en fonction de la catégorie
-  const getDescriptionClass = () => {
-    switch (category.toLowerCase()) {
-      case "discord":
-        return "text-red-200"
-      case "snapchat":
-        return "text-red-200"
-      case "pack complet":
-        return "text-red-200"
-      default:
-        return "text-red-200"
-    }
-  }
-
   return (
-    <Card className="overflow-hidden h-full flex flex-col bg-gradient-to-br from-red-950/40 via-red-900/30 to-red-800/20 border-red-700/50 text-white">
+    <Card className="overflow-hidden h-full flex flex-col bg-gradient-to-br from-black/80 via-gray-950/60 to-gray-900/40 border-gray-800 text-white">
       <Link href={`/guides/${id}`}>
         <div className="overflow-hidden h-[200px] relative">
           {category.toLowerCase() === "pack complet" && (
@@ -109,7 +95,7 @@ export default function GuideCard({ id, title, price, image, category, rating, d
         <div className="flex justify-between items-start mb-2">
           <Badge
             variant="outline"
-            className="bg-gradient-to-r from-red-800 via-red-700 to-red-600 text-red-100 border-red-600/50 hover:from-red-700 hover:via-red-600 hover:to-red-500"
+            className="bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 text-gray-200 border-gray-600 hover:from-gray-700 hover:via-gray-600 hover:to-gray-500"
           >
             {category}
           </Badge>
@@ -121,7 +107,7 @@ export default function GuideCard({ id, title, price, image, category, rating, d
         <Link href={`/guides/${id}`}>
           <h3 className="font-semibold text-lg hover:underline line-clamp-1 text-white">{title}</h3>
         </Link>
-        <p className={`text-sm ${getDescriptionClass()} mt-2 line-clamp-3`}>{description}</p>
+        <p className="text-sm text-gray-300 mt-2 line-clamp-3">{description}</p>
         <div className="mt-3">
           <p className="font-bold text-xl text-white">{price.toFixed(2)} €</p>
         </div>
@@ -129,7 +115,7 @@ export default function GuideCard({ id, title, price, image, category, rating, d
       <CardFooter className="p-4 pt-0 mt-auto">
         <Button
           onClick={handleAddToCart}
-          className={`w-full ${isInCart ? "bg-gradient-to-r from-red-600 via-red-700 to-red-800 hover:from-red-700 hover:via-red-800 hover:to-red-900" : "bg-gradient-to-r from-red-600 via-red-700 to-red-800 hover:from-red-700 hover:via-red-800 hover:to-red-900"}`}
+          className={`w-full ${isInCart ? "bg-gradient-to-r from-gray-800 via-gray-700 to-red-800 hover:from-gray-700 hover:via-gray-600 hover:to-red-700" : "bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 hover:from-gray-800 hover:via-gray-700 hover:to-red-800"}`}
           disabled={isLoading}
         >
           {isLoading ? (
