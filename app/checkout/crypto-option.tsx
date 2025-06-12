@@ -9,11 +9,11 @@ import { convertEurToCrypto, getCryptoSymbol } from "@/lib/crypto-payment"
 
 interface CryptoOptionProps {
   totalAmount: number
-  customerEmail: string
+  customerDiscord: string
   customerName: string
 }
 
-export default function CryptoOption({ totalAmount, customerEmail, customerName }: CryptoOptionProps) {
+export default function CryptoOption({ totalAmount, customerDiscord, customerName }: CryptoOptionProps) {
   const router = useRouter()
   const [selectedCrypto, setSelectedCrypto] = useState<"filecoin" | "solana" | "ethereum">("filecoin")
   const [isProcessing, setIsProcessing] = useState(false)
@@ -31,7 +31,9 @@ export default function CryptoOption({ totalAmount, customerEmail, customerName 
 
     // Rediriger vers la page de paiement en crypto
     setTimeout(() => {
-      router.push(`/crypto-payment?type=${selectedCrypto}&amount=${cryptoAmount}&orderId=${orderId}`)
+      router.push(
+        `/crypto-payment?type=${selectedCrypto}&amount=${cryptoAmount}&orderId=${orderId}&discord=${encodeURIComponent(customerDiscord)}`,
+      )
     }, 1000)
   }
 
@@ -84,7 +86,7 @@ export default function CryptoOption({ totalAmount, customerEmail, customerName 
       <Button
         onClick={handleCryptoPayment}
         className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 hover:from-gray-800 hover:via-gray-700 hover:to-red-900"
-        disabled={isProcessing}
+        disabled={isProcessing || !customerDiscord}
       >
         {isProcessing
           ? "Préparation du paiement..."

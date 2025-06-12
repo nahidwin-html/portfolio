@@ -18,10 +18,10 @@ const CRYPTO_RATES = {
   ethereum: 3000, // 1 ETH = 3000 EUR
 }
 
-// Vos adresses de paiement réelles
+// Mettre à jour les adresses de paiement avec votre clé publique
 const CRYPTO_ADDRESSES = {
   filecoin: "f1bbwxknlnbddqwkoryau5q7abis7huiyvhxigrmq", // Votre adresse Filecoin
-  solana: "8KRPDjXA8HUY8gVPH746hf1KUMrLLcBUzHQrTtrDpsnV", // Votre adresse Solana
+  solana: "d87bef980b81a67e2394ce1856b26aacf0002e5066ac027e941d7891a1e55f66", // Votre clé publique
   ethereum: "0xbfC56dFd0217C5a37Bd368ba82E8821f0D3BAa4B", // Votre adresse Ethereum
 }
 

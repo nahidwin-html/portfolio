@@ -47,6 +47,9 @@ export default function Home() {
               <Link href="/guides" className="text-sm font-medium text-gray-300 hover:text-red-500">
                 Snapchat+
               </Link>
+              <Link href="/discord-info" className="text-sm font-medium text-gray-300 hover:text-red-500">
+                Discord
+              </Link>
             </nav>
           </div>
           <div className="flex items-center gap-4">

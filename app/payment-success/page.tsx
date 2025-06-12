@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button"
 export default function PaymentSuccessPage({
   searchParams,
 }: {
-  searchParams: { orderId?: string; transactionId?: string }
+  searchParams: { orderId?: string; discord?: string }
 }) {
-  const { orderId, transactionId } = searchParams
+  const { orderId, discord } = searchParams
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-950 to-gray-900 text-white">
@@ -20,7 +20,7 @@ export default function PaymentSuccessPage({
           </div>
           <h1 className="text-3xl font-bold">Paiement réussi !</h1>
           <p className="text-xl text-gray-300">
-            Merci pour votre achat. Vous recevrez vos guides par email dans les prochaines minutes.
+            Merci pour votre achat. Vous recevrez vos guides sur Discord dans les prochaines minutes.
           </p>
 
           {orderId && (
@@ -30,9 +30,9 @@ export default function PaymentSuccessPage({
                 <p>
                   <strong>Numéro de commande:</strong> {orderId}
                 </p>
-                {transactionId && (
+                {discord && (
                   <p>
-                    <strong>ID de transaction:</strong> {transactionId}
+                    <strong>Discord:</strong> {discord}
                   </p>
                 )}
                 <p>
@@ -45,9 +45,9 @@ export default function PaymentSuccessPage({
           <div className="bg-gradient-to-br from-black/60 via-gray-950/40 to-gray-900/30 border border-gray-800 rounded-lg p-6 mt-8">
             <h2 className="text-xl font-bold mb-4">Prochaines étapes</h2>
             <ol className="text-left space-y-4 text-gray-300 list-decimal list-inside">
-              <li>Vérifiez votre boîte de réception (et dossier spam) pour trouver votre guide</li>
+              <li>Vérifiez vos messages privés sur Discord</li>
               <li>Suivez les instructions détaillées dans le guide</li>
-              <li>En cas de problème, contactez notre support à support@t3ch-france.com</li>
+              <li>En cas de problème, contactez notre support sur Discord</li>
             </ol>
 
             <div className="mt-6 pt-6 border-t border-gray-700 flex flex-col sm:flex-row gap-4 justify-center">
@@ -67,7 +67,7 @@ export default function PaymentSuccessPage({
           <div className="bg-gradient-to-r from-gray-900/20 to-gray-800/20 p-4 rounded-lg text-sm text-gray-400">
             <p className="flex items-center justify-center">
               <ExternalLink className="h-4 w-4 mr-2" />
-              Paiement traité de manière sécurisée par PayPal
+              Paiement traité de manière sécurisée par cryptomonnaie
             </p>
           </div>
         </div>

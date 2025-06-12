@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, Copy, RefreshCw, Clock, ExternalLink } from "lucide-react"
+import { ArrowLeft, Copy, RefreshCw, Clock, ExternalLink, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { useCart } from "@/contexts/cart-context"
@@ -12,19 +12,25 @@ import { getCryptoAddress, getCryptoName, getCryptoSymbol } from "@/lib/crypto-p
 export default function CryptoPaymentPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { clearCart, getTotalPrice } = useCart()
+  const { clearCart, getTotalPrice, items } = useCart()
 
   const [paymentStatus, setPaymentStatus] = useState<"pending" | "confirming" | "completed">("pending")
   const [timeLeft, setTimeLeft] = useState(900) // 15 minutes en secondes
   const [cryptoType, setCryptoType] = useState<"filecoin" | "solana" | "ethereum">("filecoin")
   const [cryptoAmount, setCryptoAmount] = useState<string>("0")
   const [orderId, setOrderId] = useState<string>("")
+  const [discordId, setDiscordId] = useState<string>("")
+  const [customerName, setCustomerName] = useState<string>("")
+  const [isVerifying, setIsVerifying] = useState(false)
+  const [verificationInterval, setVerificationInterval] = useState<NodeJS.Timeout | null>(null)
 
   // Récupérer les paramètres de l'URL
   useEffect(() => {
     const type = searchParams.get("type") as "filecoin" | "solana" | "ethereum"
     const amount = searchParams.get("amount")
     const order = searchParams.get("orderId")
+    const discord = searchParams.get("discord")
+    const name = searchParams.get("name")
 
     if (type && (type === "filecoin" || type === "solana" || type === "ethereum")) {
       setCryptoType(type)
@@ -37,8 +43,15 @@ export default function CryptoPaymentPage() {
     if (order) {
       setOrderId(order)
     } else {
-      // Générer un ID de commande si non fourni
       setOrderId(`ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`)
+    }
+
+    if (discord) {
+      setDiscordId(decodeURIComponent(discord))
+    }
+
+    if (name) {
+      setCustomerName(decodeURIComponent(name))
     }
   }, [searchParams])
 
@@ -57,22 +70,80 @@ export default function CryptoPaymentPage() {
     return () => clearInterval(timer)
   }, [])
 
-  // Simuler la vérification du paiement
-  useEffect(() => {
-    // Dans un environnement réel, vous utiliseriez une API pour vérifier le statut du paiement
-    const checkPayment = setTimeout(() => {
-      // Simuler une confirmation après 20 secondes
-      setPaymentStatus("confirming")
+  // Vérification automatique du paiement
+  const verifyPayment = async () => {
+    if (isVerifying || paymentStatus === "completed") return
 
-      // Simuler un paiement complété après 40 secondes
-      setTimeout(() => {
+    setIsVerifying(true)
+
+    try {
+      const response = await fetch("/api/crypto-payment/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId,
+          cryptoType,
+          address: getCryptoAddress(cryptoType),
+          expectedAmount: cryptoAmount,
+          customerDiscord: discordId,
+          customerName,
+          items,
+          totalAmount: getTotalPrice(),
+        }),
+      })
+
+      const result = await response.json()
+
+      if (result.verified) {
         setPaymentStatus("completed")
         clearCart()
-      }, 20000)
-    }, 20000)
 
-    return () => clearTimeout(checkPayment)
-  }, [clearCart])
+        if (verificationInterval) {
+          clearInterval(verificationInterval)
+          setVerificationInterval(null)
+        }
+
+        toast({
+          title: "Paiement confirmé !",
+          description: "Vos guides ont été envoyés sur Discord.",
+        })
+
+        // Rediriger vers la page de succès après 2 secondes
+        setTimeout(() => {
+          router.push(`/payment-success?orderId=${orderId}&discord=${encodeURIComponent(discordId)}`)
+        }, 2000)
+      } else {
+        toast({
+          title: "Paiement en attente",
+          description: "Transaction non encore confirmée sur la blockchain.",
+        })
+      }
+    } catch (error) {
+      console.error("Erreur lors de la vérification:", error)
+      toast({
+        title: "Erreur de vérification",
+        description: "Impossible de vérifier le paiement. Réessayez.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsVerifying(false)
+    }
+  }
+
+  // Démarrer la vérification automatique
+  useEffect(() => {
+    if (paymentStatus === "pending" && !verificationInterval) {
+      // Vérifier toutes les 30 secondes
+      const interval = setInterval(verifyPayment, 30000)
+      setVerificationInterval(interval)
+    }
+
+    return () => {
+      if (verificationInterval) {
+        clearInterval(verificationInterval)
+      }
+    }
+  }, [paymentStatus])
 
   const cryptoAddress = getCryptoAddress(cryptoType)
   const cryptoName = getCryptoName(cryptoType)
@@ -121,10 +192,35 @@ export default function CryptoPaymentPage() {
     }
   }
 
-  // Rediriger vers la page de succès si le paiement est complété
   if (paymentStatus === "completed") {
-    router.push(`/payment-success?orderId=${orderId}`)
-    return null
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-950 to-gray-900 text-white">
+        <div className="container mx-auto py-16 px-4 max-w-2xl">
+          <div className="text-center space-y-6">
+            <div className="flex justify-center">
+              <div className="rounded-full bg-gradient-to-r from-green-600 to-gray-800 p-4">
+                <CheckCircle className="h-16 w-16" />
+              </div>
+            </div>
+            <h1 className="text-3xl font-bold">Paiement confirmé !</h1>
+            <p className="text-xl text-gray-300">
+              Vos guides ont été envoyés sur Discord. Vérifiez vos messages privés.
+            </p>
+            <div className="bg-gradient-to-br from-black/60 via-gray-950/40 to-gray-900/30 border border-gray-800 rounded-lg p-6">
+              <p className="text-green-400 font-medium">✅ Transaction vérifiée sur la blockchain</p>
+              <p className="text-green-400 font-medium">✅ Guides envoyés sur Discord: {discordId}</p>
+              <p className="text-green-400 font-medium">✅ Commande #{orderId} complétée</p>
+            </div>
+            <Button
+              onClick={() => router.push("/")}
+              className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 hover:from-gray-800 hover:via-gray-700 hover:to-red-900"
+            >
+              Retour à l'accueil
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -229,59 +325,85 @@ export default function CryptoPaymentPage() {
 
             <div className="mt-6 space-y-4">
               <Button
-                onClick={() => setPaymentStatus("confirming")}
+                onClick={verifyPayment}
                 className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 hover:from-gray-800 hover:via-gray-700 hover:to-red-900"
+                disabled={isVerifying}
               >
-                <RefreshCw className="mr-2 h-4 w-4" />
-                Vérifier le paiement
+                <RefreshCw className={`mr-2 h-4 w-4 ${isVerifying ? "animate-spin" : ""}`} />
+                {isVerifying ? "Vérification en cours..." : "Vérifier le paiement"}
               </Button>
 
               <div className="text-center text-sm text-gray-400">
                 <p>ID de commande: {orderId}</p>
-                <p className="mt-1">
-                  Besoin d'aide? Contactez notre support à{" "}
-                  <a href="mailto:support@t3ch-france.com" className="text-red-400 hover:underline">
-                    support@t3ch-france.com
-                  </a>
-                </p>
+                {discordId && <p>Discord: {discordId}</p>}
+                <p className="mt-1">🤖 Vérification automatique toutes les 30 secondes</p>
               </div>
             </div>
           </div>
 
           <div className="mt-6 bg-gradient-to-br from-black/60 via-gray-950/40 to-gray-900/30 border border-gray-800 rounded-lg p-6">
-            <h2 className="text-lg font-bold mb-4">Instructions</h2>
-            <ol className="space-y-2 text-gray-300 list-decimal list-inside">
-              <li>Ouvrez votre portefeuille {cryptoName}</li>
-              <li>
-                Envoyez{" "}
-                <span className="font-bold text-white">
-                  {cryptoAmount} {cryptoSymbol}
-                </span>{" "}
-                à l'adresse indiquée
-              </li>
-              <li>Attendez la confirmation de la transaction (généralement 1-3 confirmations)</li>
-              <li>Une fois confirmé, vous recevrez vos guides par email</li>
-            </ol>
-
-            <div className="mt-4 p-3 bg-green-900/20 border border-green-800/50 rounded-lg text-sm">
-              <p className="font-medium text-green-300">Vos adresses crypto :</p>
-              <div className="space-y-1 mt-2">
-                <p className="text-green-200">
-                  <span className="font-medium">Filecoin:</span>{" "}
-                  <span className="font-mono text-xs">f1bbwxknlnbddqwkoryau5q7abis7huiyvhxigrmq</span>
-                </p>
-                <p className="text-green-200">
-                  <span className="font-medium">Solana:</span>{" "}
-                  <span className="font-mono text-xs">8KRPDjXA8HUY8gVPH746hf1KUMrLLcBUzHQrTtrDpsnV</span>
-                </p>
-                <p className="text-green-200">
-                  <span className="font-medium">Ethereum:</span>{" "}
-                  <span className="font-mono text-xs">0xbfC56dFd0217C5a37Bd368ba82E8821f0D3BAa4B</span>
-                </p>
+            <h2 className="text-lg font-bold mb-4">🤖 Bot Discord automatique</h2>
+            <div className="space-y-3 text-gray-300">
+              <div className="flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                <span>Vérification automatique des transactions blockchain</span>
               </div>
-              <p className="text-green-200 mt-2">
-                Assurez-vous d'envoyer le montant exact depuis votre portefeuille personnel. Les transactions en
-                cryptomonnaies sont irréversibles.
+              <div className="flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                <span>Envoi instantané des guides sur Discord</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                <span>Confirmation de commande automatique</span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                <span>Support technique intégré</span>
+              </div>
+            </div>
+
+            <div className="mt-4 p-3 bg-blue-900/20 border border-blue-800/50 rounded-lg text-sm">
+              <p className="font-medium text-blue-300">📱 Après votre paiement :</p>
+              <ol className="list-decimal list-inside mt-2 space-y-1 text-blue-200">
+                <li>Notre bot vérifie automatiquement votre transaction</li>
+                <li>Vos guides sont envoyés instantanément sur Discord</li>
+                <li>Vous recevez une confirmation avec tous les détails</li>
+                <li>Support disponible 24/7 via Discord</li>
+              </ol>
+            </div>
+          </div>
+          <div className="mt-4 p-3 bg-green-900/20 border border-green-800/50 rounded-lg text-sm">
+            <p className="font-medium text-green-300">Vos adresses crypto :</p>
+            <div className="space-y-1 mt-2">
+              <p className="text-green-200">
+                <span className="font-medium">Filecoin:</span>{" "}
+                <span className="font-mono text-xs">f1bbwxknlnbddqwkoryau5q7abis7huiyvhxigrmq</span>
+              </p>
+              <p className="text-green-200">
+                <span className="font-medium">Solana:</span>{" "}
+                <span className="font-mono text-xs">
+                  d87bef980b81a67e2394ce1856b26aacf0002e5066ac027e941d7891a1e55f66
+                </span>
+              </p>
+              <p className="text-green-200">
+                <span className="font-medium">Ethereum:</span>{" "}
+                <span className="font-mono text-xs">0xbfC56dFd0217C5a37Bd368ba82E8821f0D3BAa4B</span>
+              </p>
+            </div>
+            <div className="mt-3 p-2 bg-blue-900/20 border border-blue-700/50 rounded">
+              <p className="text-blue-200 text-xs">
+                💬 <strong>Rejoignez notre Discord :</strong>{" "}
+                <a
+                  href="https://discord.gg/FmtYNJJg"
+                  target="_blank"
+                  className="text-blue-400 hover:underline"
+                  rel="noreferrer"
+                >
+                  discord.gg/FmtYNJJg
+                </a>
+              </p>
+              <p className="text-blue-200 text-xs mt-1">
+                Vos guides seront automatiquement envoyés sur Discord après confirmation du paiement.
               </p>
             </div>
           </div>
