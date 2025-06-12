@@ -61,9 +61,9 @@ export default function GuideCard({ id, title, price, image, category, rating, d
   const getBadgeClass = () => {
     switch (category.toLowerCase()) {
       case "discord":
-        return "bg-gradient-to-r from-red-800 to-red-600 text-red-100 border-red-700/50"
+        return "bg-gradient-to-r from-red-800 to-red-600 text-red-100 border-red-600/50"
       case "snapchat":
-        return "bg-gradient-to-r from-black to-gray-800 text-red-100 border-red-700/50"
+        return "bg-gradient-to-r from-red-700 to-red-800 text-red-100 border-red-600/50"
       case "pack complet":
         return "hot-badge"
       default:
@@ -81,12 +81,12 @@ export default function GuideCard({ id, title, price, image, category, rating, d
       case "pack complet":
         return "text-red-200"
       default:
-        return "text-gray-200"
+        return "text-red-200"
     }
   }
 
   return (
-    <Card className="overflow-hidden h-full flex flex-col bg-gradient-to-br from-black via-red-950/30 to-gray-950 border-red-800/50 text-white">
+    <Card className="overflow-hidden h-full flex flex-col bg-gradient-to-br from-red-950/40 via-red-900/30 to-red-800/20 border-red-700/50 text-white">
       <Link href={`/guides/${id}`}>
         <div className="overflow-hidden h-[200px] relative">
           {category.toLowerCase() === "pack complet" && (
@@ -109,7 +109,7 @@ export default function GuideCard({ id, title, price, image, category, rating, d
         <div className="flex justify-between items-start mb-2">
           <Badge
             variant="outline"
-            className="bg-gradient-to-r from-red-800 via-black to-gray-800 text-red-100 border-red-700/50 hover:from-red-700 hover:via-gray-900 hover:to-black"
+            className="bg-gradient-to-r from-red-800 via-red-700 to-red-600 text-red-100 border-red-600/50 hover:from-red-700 hover:via-red-600 hover:to-red-500"
           >
             {category}
           </Badge>
@@ -129,7 +129,7 @@ export default function GuideCard({ id, title, price, image, category, rating, d
       <CardFooter className="p-4 pt-0 mt-auto">
         <Button
           onClick={handleAddToCart}
-          className={`w-full ${isInCart ? "bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black" : "bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black"}`}
+          className={`w-full ${isInCart ? "bg-gradient-to-r from-red-600 via-red-700 to-red-800 hover:from-red-700 hover:via-red-800 hover:to-red-900" : "bg-gradient-to-r from-red-600 via-red-700 to-red-800 hover:from-red-700 hover:via-red-800 hover:to-red-900"}`}
           disabled={isLoading}
         >
           {isLoading ? (
