@@ -24,7 +24,7 @@ export default function PayPalButton({ onSuccess, onError, onCancel }: PayPalBut
     // Charger le SDK PayPal
     if (!window.paypal) {
       const script = document.createElement("script")
-      script.src = "https://www.paypal.com/sdk/js?client-id=test&currency=EUR"
+      script.src = "https://www.paypal.com/sdk/js?client-id=VOTRE_CLIENT_ID_PAYPAL&currency=EUR"
       script.async = true
       script.onload = () => {
         renderPayPalButton()

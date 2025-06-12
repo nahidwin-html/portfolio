@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, CreditCard, Lock, CheckCircle } from "lucide-react"
+import { ArrowLeft, CreditCard, Lock, CheckCircle, AlertCircle } from "lucide-react"
 import { useCart } from "@/contexts/cart-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,12 +13,11 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
 import CryptoOption from "./crypto-option"
-import PayPalButton from "@/components/paypal-button"
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCart()
   const router = useRouter()
-  const [paymentMethod, setPaymentMethod] = useState("card")
+  const [paymentMethod, setPaymentMethod] = useState("crypto")
   const [isProcessing, setIsProcessing] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const [customerInfo, setCustomerInfo] = useState({
@@ -83,15 +82,6 @@ export default function CheckoutPage() {
       })
       setIsProcessing(false)
     }
-  }
-
-  const handlePayPalSuccess = (details: any) => {
-    setIsComplete(true)
-    // La redirection est gérée dans le composant PayPalButton
-  }
-
-  const handlePayPalError = (error: any) => {
-    console.error("Erreur PayPal:", error)
   }
 
   if (isComplete) {
@@ -175,54 +165,54 @@ export default function CheckoutPage() {
 
               <h2 className="text-xl font-bold mb-4">Méthode de paiement</h2>
 
-              <Tabs defaultValue="paypal" onValueChange={setPaymentMethod} className="w-full">
-                <TabsList className="grid grid-cols-4 mb-6 bg-gray-900/50">
-                  <TabsTrigger value="paypal" className="data-[state=active]:bg-gray-800">
-                    PayPal
+              <Tabs defaultValue="crypto" onValueChange={setPaymentMethod} className="w-full">
+                <TabsList className="grid grid-cols-3 mb-6 bg-gray-900/50">
+                  <TabsTrigger value="crypto" className="data-[state=active]:bg-gray-800">
+                    Crypto
                   </TabsTrigger>
                   <TabsTrigger value="card" className="data-[state=active]:bg-gray-800">
                     Carte
-                  </TabsTrigger>
-                  <TabsTrigger value="crypto" className="data-[state=active]:bg-gray-800">
-                    Crypto
                   </TabsTrigger>
                   <TabsTrigger value="mobile" className="data-[state=active]:bg-gray-800">
                     Mobile
                   </TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="paypal">
-                  <div className="space-y-6">
-                    <div className="text-center py-4">
-                      <div className="bg-[#003087] text-white py-3 px-6 rounded-lg inline-flex items-center text-2xl font-bold mb-4">
-                        <span className="text-[#0079C1]">Pay</span>
-                        <span className="text-[#00457C]">Pal</span>
-                      </div>
-                      <p className="text-gray-300 mb-4">
-                        Paiement sécurisé avec PayPal. Vous pouvez payer avec votre compte PayPal ou votre carte
-                        bancaire.
-                      </p>
+                <TabsContent value="crypto">
+                  <div className="mb-4 p-4 bg-green-900/20 border border-green-700/50 rounded-lg">
+                    <div className="flex items-center">
+                      <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                      <span className="text-green-400 font-medium">Recommandé - Paiement instantané</span>
                     </div>
-
-                    {customerInfo.email ? (
-                      <PayPalButton onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
-                    ) : (
-                      <div className="text-center py-8 bg-gray-900/30 rounded-lg border border-gray-700">
-                        <p className="text-gray-400">Veuillez renseigner votre email pour continuer avec PayPal</p>
-                      </div>
-                    )}
+                    <p className="text-green-200 text-sm mt-1">
+                      Paiement sécurisé avec Bitcoin ou Ethereum. Aucun compte requis.
+                    </p>
                   </div>
+                  <CryptoOption
+                    totalAmount={getTotalPrice()}
+                    customerEmail={customerInfo.email}
+                    customerName={customerInfo.name}
+                  />
                 </TabsContent>
 
                 <TabsContent value="card">
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="mb-4 p-4 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
+                    <div className="flex items-center">
+                      <AlertCircle className="h-5 w-5 text-yellow-500 mr-2" />
+                      <span className="text-yellow-400 font-medium">En cours de configuration</span>
+                    </div>
+                    <p className="text-yellow-200 text-sm mt-1">
+                      Le paiement par carte sera bientôt disponible. Utilisez crypto en attendant.
+                    </p>
+                  </div>
+                  <form onSubmit={handleSubmit} className="space-y-4 opacity-50 pointer-events-none">
                     <div className="space-y-2">
                       <Label htmlFor="cardNumber">Numéro de carte</Label>
                       <Input
                         id="cardNumber"
                         placeholder="1234 5678 9012 3456"
                         className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
-                        required
+                        disabled
                       />
                     </div>
 
@@ -233,7 +223,7 @@ export default function CheckoutPage() {
                           id="expiry"
                           placeholder="MM/AA"
                           className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
-                          required
+                          disabled
                         />
                       </div>
                       <div className="space-y-2">
@@ -242,7 +232,7 @@ export default function CheckoutPage() {
                           id="cvc"
                           placeholder="123"
                           className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
-                          required
+                          disabled
                         />
                       </div>
                     </div>
@@ -253,48 +243,31 @@ export default function CheckoutPage() {
                         id="cardName"
                         placeholder="John Doe"
                         className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
-                        required
+                        disabled
                       />
                     </div>
 
                     <div className="pt-4">
-                      <Button
-                        type="submit"
-                        className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 hover:from-gray-800 hover:via-gray-700 hover:to-red-900"
-                        disabled={isProcessing || !customerInfo.name || !customerInfo.email}
-                      >
-                        {isProcessing ? (
-                          "Traitement en cours..."
-                        ) : (
-                          <>
-                            <CreditCard className="mr-2 h-4 w-4" />
-                            Payer {getTotalPrice().toFixed(2)} €
-                          </>
-                        )}
+                      <Button type="button" className="w-full bg-gray-600 cursor-not-allowed" disabled>
+                        <CreditCard className="mr-2 h-4 w-4" />
+                        Bientôt disponible
                       </Button>
-                    </div>
-
-                    <div className="flex items-center justify-center text-sm text-gray-400 mt-4">
-                      <Lock className="h-4 w-4 mr-2" />
-                      Paiement sécurisé par SSL
                     </div>
                   </form>
                 </TabsContent>
 
-                <TabsContent value="crypto">
-                  <CryptoOption
-                    totalAmount={getTotalPrice()}
-                    customerEmail={customerInfo.email}
-                    customerName={customerInfo.name}
-                  />
-                </TabsContent>
-
                 <TabsContent value="mobile">
-                  <div className="grid grid-cols-2 gap-4 py-6">
+                  <div className="mb-4 p-4 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
+                    <div className="flex items-center">
+                      <AlertCircle className="h-5 w-5 text-yellow-500 mr-2" />
+                      <span className="text-yellow-400 font-medium">En cours de configuration</span>
+                    </div>
+                    <p className="text-yellow-200 text-sm mt-1">Apple Pay et Google Pay seront bientôt disponibles.</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 py-6 opacity-50 pointer-events-none">
                     <Button
-                      onClick={handleSubmit}
                       className="flex flex-col items-center justify-center h-24 bg-black hover:bg-gray-900 border border-gray-700"
-                      disabled={isProcessing || !customerInfo.name || !customerInfo.email}
+                      disabled
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -313,13 +286,12 @@ export default function CheckoutPage() {
                         <path d="M7 7.8h10" />
                         <path d="M7 15.8h10" />
                       </svg>
-                      Apple Pay
+                      Bientôt disponible
                     </Button>
 
                     <Button
-                      onClick={handleSubmit}
                       className="flex flex-col items-center justify-center h-24 bg-white hover:bg-gray-100 text-black border border-gray-300"
-                      disabled={isProcessing || !customerInfo.name || !customerInfo.email}
+                      disabled
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -339,12 +311,9 @@ export default function CheckoutPage() {
                         <circle cx="15.5" cy="15.5" r="1.5" />
                         <circle cx="8.5" cy="15.5" r="1.5" />
                       </svg>
-                      Google Pay
+                      Bientôt disponible
                     </Button>
                   </div>
-                  <p className="text-center text-gray-400 text-sm mt-4">
-                    Vous serez redirigé vers votre application de paiement mobile.
-                  </p>
                 </TabsContent>
               </Tabs>
             </div>
@@ -373,13 +342,26 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-gray-900/20 to-gray-800/20 p-4 rounded-lg text-sm text-gray-400 space-y-2">
+              <div className="bg-gradient-to-r from-gray-900/20 to-gray-800/20 p-4 rounded-lg text-sm text-gray-400 space-y-2 mb-4">
                 <div className="flex items-start">
                   <Lock className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
                   <p>Paiement 100% sécurisé avec cryptage SSL</p>
                 </div>
                 <p>En finalisant votre achat, vous acceptez nos conditions générales de vente.</p>
                 <p>Livraison immédiate par email après paiement.</p>
+              </div>
+
+              <div className="bg-green-900/20 border border-green-700/50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                  <span className="text-green-400 font-medium">Crypto recommandé</span>
+                </div>
+                <ul className="text-green-200 text-sm space-y-1">
+                  <li>• Paiement instantané</li>
+                  <li>• Aucun compte requis</li>
+                  <li>• Frais réduits</li>
+                  <li>• 100% sécurisé</li>
+                </ul>
               </div>
             </div>
           </div>

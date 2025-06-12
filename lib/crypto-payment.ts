@@ -1,5 +1,5 @@
 // Types pour les paiements en cryptomonnaies
-export type CryptoType = "bitcoin" | "ethereum"
+export type CryptoType = "filecoin" | "solana" | "ethereum"
 
 export interface CryptoPayment {
   orderId: string
@@ -13,8 +13,16 @@ export interface CryptoPayment {
 
 // Taux de conversion fictifs (dans un environnement réel, vous utiliseriez une API pour obtenir les taux actuels)
 const CRYPTO_RATES = {
-  bitcoin: 50000, // 1 BTC = 50000 EUR
+  filecoin: 40, // 1 FIL = 40 EUR
+  solana: 180, // 1 SOL = 180 EUR
   ethereum: 3000, // 1 ETH = 3000 EUR
+}
+
+// Vos adresses de paiement réelles
+const CRYPTO_ADDRESSES = {
+  filecoin: "f1bbwxknlnbddqwkoryau5q7abis7huiyvhxigrmq", // Votre adresse Filecoin
+  solana: "8KRPDjXA8HUY8gVPH746hf1KUMrLLcBUzHQrTtrDpsnV", // Votre adresse Solana
+  ethereum: "0xbfC56dFd0217C5a37Bd368ba82E8821f0D3BAa4B", // Votre adresse Ethereum
 }
 
 /**
@@ -25,9 +33,55 @@ export function convertEurToCrypto(amount: number, cryptoType: CryptoType): stri
   const cryptoAmount = amount / rate
 
   // Formater avec la précision appropriée
-  return cryptoType === "bitcoin"
-    ? cryptoAmount.toFixed(8) // Bitcoin utilise généralement 8 décimales
-    : cryptoAmount.toFixed(6) // Ethereum utilise généralement 6 décimales
+  switch (cryptoType) {
+    case "filecoin":
+      return cryptoAmount.toFixed(6) // Filecoin utilise 6 décimales
+    case "solana":
+      return cryptoAmount.toFixed(9) // Solana utilise 9 décimales
+    case "ethereum":
+      return cryptoAmount.toFixed(6) // Ethereum utilise 6 décimales
+    default:
+      return cryptoAmount.toFixed(6)
+  }
+}
+
+/**
+ * Obtient l'adresse de paiement pour un type de crypto
+ */
+export function getCryptoAddress(cryptoType: CryptoType): string {
+  return CRYPTO_ADDRESSES[cryptoType]
+}
+
+/**
+ * Obtient le nom complet de la cryptomonnaie
+ */
+export function getCryptoName(cryptoType: CryptoType): string {
+  switch (cryptoType) {
+    case "filecoin":
+      return "Filecoin"
+    case "solana":
+      return "Solana"
+    case "ethereum":
+      return "Ethereum"
+    default:
+      return cryptoType
+  }
+}
+
+/**
+ * Obtient le symbole de la cryptomonnaie
+ */
+export function getCryptoSymbol(cryptoType: CryptoType): string {
+  switch (cryptoType) {
+    case "filecoin":
+      return "FIL"
+    case "solana":
+      return "SOL"
+    case "ethereum":
+      return "ETH"
+    default:
+      return cryptoType.toUpperCase()
+  }
 }
 
 /**
@@ -35,12 +89,7 @@ export function convertEurToCrypto(amount: number, cryptoType: CryptoType): stri
  */
 export function createCryptoPayment(orderId: string, amountEur: number, cryptoType: CryptoType): CryptoPayment {
   const cryptoAmount = convertEurToCrypto(amountEur, cryptoType)
-
-  // Dans un environnement réel, vous généreriez une adresse unique pour chaque paiement
-  const address =
-    cryptoType === "bitcoin"
-      ? "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh"
-      : "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
+  const address = getCryptoAddress(cryptoType)
 
   const now = Date.now()
 
