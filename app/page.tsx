@@ -22,8 +22,8 @@ export default function Home() {
       addItem({
         id: "full-pack",
         title: "Full Pack Tech",
-        price: 7.5,
-        image: "/images/discord-nitro.png", // Image représentative
+        price: 3.5,
+        image: "/images/discord-nitro-new.png",
         category: "Pack Complet",
       })
 
@@ -32,26 +32,20 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-gray-950 via-red-950 to-green-950 text-white">
-      <header className="sticky top-0 z-10 border-b border-blue-800/50 bg-gradient-to-br from-gray-950 via-blue-950/30 to-green-950">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-black via-red-950 to-gray-950 text-white">
+      <header className="sticky top-0 z-10 border-b border-red-800/50 bg-gradient-to-br from-black via-red-950/30 to-gray-950">
         <div className="container flex h-16 items-center justify-between py-4">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-              <span className="text-blue-500">T3CH</span>
-              <span className="text-red-500">-FRANCE</span>
+              <span className="text-red-500">T3CH</span>
+              <span className="text-white">-FRANCE</span>
             </Link>
             <nav className="hidden md:flex gap-6">
-              <Link href="/guides" className="text-sm font-medium hover:text-blue-500">
+              <Link href="/guides" className="text-sm font-medium hover:text-red-500">
                 Discord Nitro
               </Link>
-              <Link href="/guides" className="text-sm font-medium hover:text-red-500">
+              <Link href="/guides" className="text-sm font-medium hover:text-red-400">
                 Snapchat+
-              </Link>
-              <Link href="/guides" className="text-sm font-medium hover:text-green-500">
-                Robux
-              </Link>
-              <Link href="/guides" className="text-sm font-medium hover:text-red-500">
-                Uber Eats
               </Link>
             </nav>
           </div>
@@ -71,15 +65,15 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1">
-        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-gray-950 via-blue-950 to-green-950">
+        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-b from-black via-red-950 to-gray-950">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="space-y-4">
                 <Badge
-                  className="mb-2 bg-gradient-to-r from-blue-900/50 via-red-900/50 to-green-900/50 text-blue-100 hover:bg-blue-800"
+                  className="mb-2 bg-gradient-to-r from-red-900/50 via-black/50 to-gray-900/50 text-red-100 hover:bg-red-800"
                   variant="outline"
                 >
-                  Discord Nitro à 3€ | Snapchat+ à 0,50€ | Uber Eats à 2€ | Robux à 5€
+                  Discord Nitro à 2,20€ | Snapchat+ à 0,50€
                 </Badge>
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                   Guides pour obtenir vos services numériques à prix réduit
@@ -91,7 +85,7 @@ export default function Home() {
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700"
+                    className="bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black"
                     onClick={() => router.push("/guides")}
                   >
                     Voir les guides
@@ -125,7 +119,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-br from-gray-950 via-blue-950 to-green-950">
+        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-br from-black via-red-950 to-gray-950">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -135,15 +129,15 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mt-8">
               <GuideCard
                 id="1"
-                title="Discord Nitro à -50%"
-                price={3}
-                image="/images/discord-nitro.png"
+                title="Discord Nitro à -78%"
+                price={2.2}
+                image="/images/discord-nitro-new.png"
                 category="Discord"
                 rating={4.8}
-                description="Guide complet pour obtenir Discord Nitro à moitié prix grâce aux offres promotionnelles et programmes partenaires."
+                description="Guide complet pour obtenir Discord Nitro à seulement 2,20€ au lieu de 9,99€ grâce aux offres promotionnelles et programmes partenaires."
               />
               <GuideCard
                 id="2"
@@ -154,24 +148,6 @@ export default function Home() {
                 rating={4.6}
                 description="Méthodes légitimes pour réduire le coût de votre abonnement Snapchat+ et maximiser les avantages."
               />
-              <GuideCard
-                id="3"
-                title="Robux à prix réduit"
-                price={5}
-                image="/images/robux.png"
-                category="Robux"
-                rating={4.9}
-                description="Guide pour obtenir des Robux moins chers via des cartes cadeaux en promotion et programmes de fidélité."
-              />
-              <GuideCard
-                id="5"
-                title="Uber Eats à 2€"
-                price={2}
-                image="/images/uber-eats.png"
-                category="Uber Eats"
-                rating={4.9}
-                description="Technique exclusive pour obtenir des repas Uber Eats à seulement 2€ grâce aux codes promo et offres spéciales."
-              />
             </div>
             <div className="mt-12 p-6 border border-red-800/50 rounded-lg tri-gradient-bg">
               <div className="flex flex-col md:flex-row gap-6 items-center">
@@ -179,11 +155,9 @@ export default function Home() {
                   <div className="bg-gradient-to-br from-red-600 to-red-900 p-4 rounded-lg flex items-center justify-center h-full">
                     <div className="text-center">
                       <h4 className="text-xl font-bold text-white mb-2">FULL PACK</h4>
-                      <div className="grid grid-cols-2 gap-2">
-                        <img src="/images/discord-nitro.png" alt="Discord Nitro" className="w-full rounded" />
+                      <div className="grid grid-cols-1 gap-2">
+                        <img src="/images/discord-nitro-new.png" alt="Discord Nitro" className="w-full rounded" />
                         <img src="/images/snapchat-plus.png" alt="Snapchat+" className="w-full rounded" />
-                        <img src="/images/robux.png" alt="Robux" className="w-full rounded" />
-                        <img src="/images/uber-eats.png" alt="Uber Eats" className="w-full rounded" />
                       </div>
                     </div>
                   </div>
@@ -211,16 +185,16 @@ export default function Home() {
                       <span>5.0</span>
                     </div>
                   </div>
-                  <h3 className="text-2xl font-bold">Full Pack Tech à 7,50€</h3>
+                  <h3 className="text-2xl font-bold">Full Pack Tech à 3,50€</h3>
                   <p className="text-red-200">
-                    Obtenez TOUS nos guides techniques dans un seul pack à prix réduit! Inclut Discord Nitro, Snapchat+,
-                    Robux, Uber Eats et bien plus encore. Économisez plus de 70% sur le prix des guides individuels.
+                    Obtenez TOUS nos guides techniques dans un seul pack à prix réduit! Inclut Discord Nitro et
+                    Snapchat+ avec des bonus exclusifs. Économisez plus de 60% sur le prix des guides individuels.
                   </p>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center">
-                      <p className="text-3xl font-bold text-red-400">7.50 €</p>
-                      <p className="text-lg line-through text-gray-400 ml-2">15.00 €</p>
-                      <Badge className="ml-2 bg-red-600 text-white">-50%</Badge>
+                      <p className="text-3xl font-bold text-red-400">3.50 €</p>
+                      <p className="text-lg line-through text-gray-400 ml-2">6.00 €</p>
+                      <Badge className="ml-2 bg-red-600 text-white">-42%</Badge>
                     </div>
                   </div>
                   <Button
@@ -247,7 +221,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-br from-gray-950 via-blue-950 to-green-950">
+        <section className="py-12 md:py-24 lg:py-32 bg-gradient-to-br from-black via-red-950 to-gray-950">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="space-y-4">
@@ -255,9 +229,9 @@ export default function Home() {
                   Pourquoi choisir nos guides
                 </h2>
                 <div className="space-y-6">
-                  <div className="border border-blue-800/50 rounded-lg p-6 tri-gradient-bg">
+                  <div className="border border-red-800/50 rounded-lg p-6 tri-gradient-bg">
                     <h3 className="font-medium text-xl mb-2">Économies garanties</h3>
-                    <p className="text-blue-100">
+                    <p className="text-red-100">
                       Nos guides vous permettent d'économiser jusqu'à 90% sur vos services numériques préférés. Toutes
                       nos méthodes sont testées et mises à jour régulièrement.
                     </p>
@@ -285,7 +259,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-12 md:py-16 bg-gradient-to-r from-gray-950 via-blue-600 to-green-600 text-white">
+        <section className="py-12 md:py-16 bg-gradient-to-r from-black via-red-600 to-gray-900 text-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center text-center space-y-4">
               <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -297,7 +271,7 @@ export default function Home() {
               <Button
                 size="lg"
                 variant="secondary"
-                className="mt-4 bg-gradient-to-r from-red-800 via-green-800 to-blue-800 hover:from-red-900 hover:via-green-900 hover:to-blue-900 text-white"
+                className="mt-4 bg-gradient-to-r from-red-800 via-black to-gray-800 hover:from-red-900 hover:via-gray-900 hover:to-black text-white"
                 onClick={() => router.push("/guides")}
               >
                 Découvrir les guides
@@ -306,23 +280,23 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="border-t border-blue-800/50 bg-gradient-to-br from-gray-950 via-blue-950 to-green-950">
+      <footer className="border-t border-red-800/50 bg-gradient-to-br from-black via-red-950 to-gray-950">
         <div className="container flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex flex-col gap-2">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-              <span className="text-blue-500">T3CH</span>
-              <span className="text-red-500">-FRANCE</span>
+              <span className="text-red-500">T3CH</span>
+              <span className="text-white">-FRANCE</span>
             </Link>
-            <p className="text-blue-200 text-sm">© 2025 T3CH-FRANCE. Tous droits réservés.</p>
+            <p className="text-red-200 text-sm">© 2025 T3CH-FRANCE. Tous droits réservés.</p>
           </div>
           <nav className="flex gap-4 sm:gap-6">
-            <Link href="/about" className="text-sm font-medium hover:text-blue-500">
+            <Link href="/about" className="text-sm font-medium hover:text-red-500">
               À propos
             </Link>
             <Link href="/contact" className="text-sm font-medium hover:text-red-500">
               Contact
             </Link>
-            <Link href="/terms" className="text-sm font-medium hover:text-green-500">
+            <Link href="/terms" className="text-sm font-medium hover:text-red-500">
               Conditions
             </Link>
             <Link href="/faq" className="text-sm font-medium hover:text-red-500">
@@ -330,7 +304,7 @@ export default function Home() {
             </Link>
           </nav>
         </div>
-        <div className="container py-6 text-center text-sm text-blue-400">
+        <div className="container py-6 text-center text-sm text-red-400">
           <p>
             T3CH-FRANCE n'est affilié à aucune des marques mentionnées. Tous les guides proposent des méthodes légitimes
             utilisant des offres promotionnelles officielles, des programmes de fidélité et des astuces d'achat.

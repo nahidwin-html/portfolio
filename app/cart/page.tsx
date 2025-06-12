@@ -15,9 +15,9 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-green-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-red-950 to-gray-950 text-white">
       <div className="container mx-auto py-8 px-4">
-        <Link href="/" className="inline-flex items-center text-blue-500 hover:text-blue-400 mb-6">
+        <Link href="/" className="inline-flex items-center text-red-500 hover:text-red-400 mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Retour à l'accueil
         </Link>
@@ -26,18 +26,18 @@ export default function CartPage() {
 
         {items.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-xl text-green-200 mb-6">Votre panier est vide</p>
+            <p className="text-xl text-red-200 mb-6">Votre panier est vide</p>
             <Link href="/">
-              <Button className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
+              <Button className="bg-gradient-to-r from-red-600 to-black hover:from-red-700 hover:to-gray-900">
                 Découvrir nos guides
               </Button>
             </Link>
           </div>
         ) : (
           <>
-            <div className="bg-gradient-to-br from-blue-950/30 to-green-950/30 border border-blue-800/50 rounded-lg overflow-hidden mb-6">
+            <div className="bg-gradient-to-br from-red-950/30 to-gray-950/30 border border-red-800/50 rounded-lg overflow-hidden mb-6">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-blue-900/50 to-green-900/50">
+                <thead className="bg-gradient-to-r from-red-900/50 to-black/50">
                   <tr>
                     <th className="text-left p-4">Produit</th>
                     <th className="text-right p-4">Prix</th>
@@ -46,7 +46,7 @@ export default function CartPage() {
                 </thead>
                 <tbody>
                   {items.map((item) => (
-                    <tr key={item.id} className="border-t border-blue-800/50">
+                    <tr key={item.id} className="border-t border-red-800/50">
                       <td className="p-4">
                         <div className="flex items-center">
                           <div className="w-16 h-16 rounded overflow-hidden mr-4 hidden sm:block">
@@ -58,7 +58,7 @@ export default function CartPage() {
                           </div>
                           <div>
                             <h3 className="font-medium">{item.title}</h3>
-                            <p className="text-green-200 text-sm">{item.category}</p>
+                            <p className="text-red-200 text-sm">{item.category}</p>
                           </div>
                         </div>
                       </td>
@@ -76,7 +76,7 @@ export default function CartPage() {
                     </tr>
                   ))}
                 </tbody>
-                <tfoot className="bg-gradient-to-r from-blue-900/30 to-green-900/30">
+                <tfoot className="bg-gradient-to-r from-red-900/30 to-black/30">
                   <tr>
                     <td className="p-4 font-bold text-lg">Total</td>
                     <td className="p-4 text-right font-bold text-lg">{getTotalPrice().toFixed(2)} €</td>
@@ -97,7 +97,7 @@ export default function CartPage() {
               </Button>
 
               <Button
-                className="bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700"
+                className="bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black"
                 onClick={handleCheckout}
               >
                 <CreditCard className="mr-2 h-4 w-4" />

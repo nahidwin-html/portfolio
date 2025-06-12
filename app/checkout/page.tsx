@@ -10,9 +10,9 @@ import { useCart } from "@/contexts/cart-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
+import CryptoOption from "./crypto-option"
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCart()
@@ -85,20 +85,20 @@ export default function CheckoutPage() {
 
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-green-950 text-white">
+      <div className="min-h-screen bg-gradient-to-br from-black via-red-950 to-gray-950 text-white">
         <div className="container mx-auto py-16 px-4 max-w-3xl">
           <div className="text-center space-y-6">
             <div className="flex justify-center">
-              <div className="rounded-full bg-gradient-to-r from-green-600 to-blue-600 p-4">
+              <div className="rounded-full bg-gradient-to-r from-red-600 to-black p-4">
                 <CheckCircle className="h-16 w-16" />
               </div>
             </div>
             <h1 className="text-3xl font-bold">Paiement réussi !</h1>
-            <p className="text-xl text-green-200">
+            <p className="text-xl text-red-200">
               Merci pour votre achat. Vous recevrez vos guides par email dans les prochaines minutes.
             </p>
             <Link href="/">
-              <Button className="bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700 mt-4">
+              <Button className="bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black mt-4">
                 Retour à l'accueil
               </Button>
             </Link>
@@ -109,9 +109,9 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-blue-950 to-green-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-red-950 to-gray-950 text-white">
       <div className="container mx-auto py-8 px-4">
-        <Link href="/cart" className="inline-flex items-center text-blue-500 hover:text-blue-400 mb-6">
+        <Link href="/cart" className="inline-flex items-center text-red-500 hover:text-red-400 mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Retour au panier
         </Link>
@@ -120,7 +120,7 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-blue-950/30 to-green-950/30 border border-blue-800/50 rounded-lg p-6 mb-6">
+            <div className="bg-gradient-to-br from-red-950/30 to-gray-950/30 border border-red-800/50 rounded-lg p-6 mb-6">
               <h2 className="text-xl font-bold mb-4">Informations client</h2>
               <div className="space-y-4 mb-6">
                 <div className="space-y-2">
@@ -132,7 +132,7 @@ export default function CheckoutPage() {
                     onChange={handleCustomerInfoChange}
                     placeholder="Votre nom"
                     required
-                    className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                    className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
                   />
                 </div>
                 <div className="space-y-2">
@@ -145,9 +145,9 @@ export default function CheckoutPage() {
                     onChange={handleCustomerInfoChange}
                     placeholder="votre@email.com"
                     required
-                    className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                    className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
                   />
-                  <p className="text-xs text-green-200">Vos guides seront envoyés à cette adresse email.</p>
+                  <p className="text-xs text-red-200">Vos guides seront envoyés à cette adresse email.</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="address">Adresse (facultatif)</Label>
@@ -157,7 +157,7 @@ export default function CheckoutPage() {
                     value={customerInfo.address}
                     onChange={handleCustomerInfoChange}
                     placeholder="Votre adresse"
-                    className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                    className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
                   />
                 </div>
               </div>
@@ -179,7 +179,7 @@ export default function CheckoutPage() {
                       <Input
                         id="cardNumber"
                         placeholder="1234 5678 9012 3456"
-                        className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                        className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
                         required
                       />
                     </div>
@@ -190,7 +190,7 @@ export default function CheckoutPage() {
                         <Input
                           id="expiry"
                           placeholder="MM/AA"
-                          className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                          className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
                           required
                         />
                       </div>
@@ -199,7 +199,7 @@ export default function CheckoutPage() {
                         <Input
                           id="cvc"
                           placeholder="123"
-                          className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                          className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
                           required
                         />
                       </div>
@@ -210,7 +210,7 @@ export default function CheckoutPage() {
                       <Input
                         id="cardName"
                         placeholder="John Doe"
-                        className="bg-gradient-to-br from-blue-950/50 to-green-950/50 border-blue-800/50 text-white"
+                        className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
                         required
                       />
                     </div>
@@ -218,7 +218,7 @@ export default function CheckoutPage() {
                     <div className="pt-4">
                       <Button
                         type="submit"
-                        className="w-full bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700"
+                        className="w-full bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black"
                         disabled={isProcessing || !customerInfo.name || !customerInfo.email}
                       >
                         {isProcessing ? (
@@ -232,7 +232,7 @@ export default function CheckoutPage() {
                       </Button>
                     </div>
 
-                    <div className="flex items-center justify-center text-sm text-green-200 mt-4">
+                    <div className="flex items-center justify-center text-sm text-red-200 mt-4">
                       <Lock className="h-4 w-4 mr-2" />
                       Paiement sécurisé par SSL
                     </div>
@@ -245,7 +245,7 @@ export default function CheckoutPage() {
                       <span className="text-[#0079C1]">Pay</span>
                       <span className="text-[#00457C]">Pal</span>
                     </div>
-                    <p className="text-green-200">Vous serez redirigé vers PayPal pour finaliser votre paiement.</p>
+                    <p className="text-red-200">Vous serez redirigé vers PayPal pour finaliser votre paiement.</p>
                     <Button
                       onClick={handleSubmit}
                       className="bg-[#0070BA] hover:bg-[#005ea6] text-white"
@@ -257,54 +257,11 @@ export default function CheckoutPage() {
                 </TabsContent>
 
                 <TabsContent value="crypto">
-                  <div className="space-y-6 py-4">
-                    <RadioGroup defaultValue="bitcoin">
-                      <div className="flex items-center space-x-2 mb-4">
-                        <RadioGroupItem value="bitcoin" id="bitcoin" />
-                        <Label htmlFor="bitcoin" className="flex items-center">
-                          <div className="w-8 h-8 mr-2 rounded-full bg-[#F7931A] flex items-center justify-center text-white font-bold">
-                            ₿
-                          </div>
-                          Bitcoin
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2 mb-4">
-                        <RadioGroupItem value="ethereum" id="ethereum" />
-                        <Label htmlFor="ethereum" className="flex items-center">
-                          <div className="w-8 h-8 mr-2 rounded-full bg-[#627EEA] flex items-center justify-center text-white">
-                            Ξ
-                          </div>
-                          Ethereum
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="usdt" id="usdt" />
-                        <Label htmlFor="usdt" className="flex items-center">
-                          <div className="w-8 h-8 mr-2 rounded-full bg-[#26A17B] flex items-center justify-center text-white font-bold">
-                            ₮
-                          </div>
-                          USDT
-                        </Label>
-                      </div>
-                    </RadioGroup>
-
-                    <div className="border border-blue-800/50 rounded-lg p-4 bg-gradient-to-br from-blue-950/30 to-green-950/30">
-                      <p className="text-sm text-green-200 mb-2">Adresse de paiement:</p>
-                      <p className="font-mono text-sm bg-blue-900/50 p-2 rounded">
-                        bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
-                      </p>
-                    </div>
-
-                    <Button
-                      onClick={handleSubmit}
-                      className="w-full bg-[#F7931A] hover:bg-[#E57300]"
-                      disabled={isProcessing || !customerInfo.name || !customerInfo.email}
-                    >
-                      {isProcessing
-                        ? "Traitement en cours..."
-                        : `Confirmer le paiement (${getTotalPrice().toFixed(2)} €)`}
-                    </Button>
-                  </div>
+                  <CryptoOption
+                    totalAmount={getTotalPrice()}
+                    customerEmail={customerInfo.email}
+                    customerName={customerInfo.name}
+                  />
                 </TabsContent>
 
                 <TabsContent value="mobile">
@@ -360,7 +317,7 @@ export default function CheckoutPage() {
                       Google Pay
                     </Button>
                   </div>
-                  <p className="text-center text-green-200 text-sm mt-4">
+                  <p className="text-center text-red-200 text-sm mt-4">
                     Vous serez redirigé vers votre application de paiement mobile.
                   </p>
                 </TabsContent>
@@ -369,7 +326,7 @@ export default function CheckoutPage() {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-gradient-to-br from-blue-950/30 to-green-950/30 border border-blue-800/50 rounded-lg p-6 sticky top-8">
+            <div className="bg-gradient-to-br from-red-950/30 to-gray-950/30 border border-red-800/50 rounded-lg p-6 sticky top-8">
               <h2 className="text-xl font-bold mb-4">Récapitulatif</h2>
 
               <div className="space-y-4 mb-6">
@@ -377,21 +334,21 @@ export default function CheckoutPage() {
                   <div key={item.id} className="flex justify-between">
                     <div>
                       <p className="font-medium">{item.title}</p>
-                      <p className="text-sm text-green-200">{item.category}</p>
+                      <p className="text-sm text-red-200">{item.category}</p>
                     </div>
                     <p className="font-bold">{item.price.toFixed(2)} €</p>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t border-blue-800/50 pt-4 mb-6">
+              <div className="border-t border-red-800/50 pt-4 mb-6">
                 <div className="flex justify-between font-bold text-lg">
                   <p>Total</p>
                   <p>{getTotalPrice().toFixed(2)} €</p>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-blue-900/20 to-green-900/20 p-4 rounded-lg text-sm text-green-200 space-y-2">
+              <div className="bg-gradient-to-r from-red-900/20 to-black/20 p-4 rounded-lg text-sm text-red-200 space-y-2">
                 <div className="flex items-start">
                   <Lock className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
                   <p>Paiement 100% sécurisé avec cryptage SSL</p>

@@ -61,13 +61,9 @@ export default function GuideCard({ id, title, price, image, category, rating, d
   const getBadgeClass = () => {
     switch (category.toLowerCase()) {
       case "discord":
-        return "bg-gradient-to-r from-blue-800 to-blue-600 text-blue-100 border-blue-700/50"
+        return "bg-gradient-to-r from-red-800 to-red-600 text-red-100 border-red-700/50"
       case "snapchat":
-        return "bg-gradient-to-r from-red-800 to-red-600 text-red-100 border-red-700/50"
-      case "robux":
-        return "bg-gradient-to-r from-green-800 to-green-600 text-green-100 border-green-700/50"
-      case "uber eats":
-        return "bg-gradient-to-r from-red-800 to-red-600 text-red-100 border-red-700/50"
+        return "bg-gradient-to-r from-black to-gray-800 text-red-100 border-red-700/50"
       case "pack complet":
         return "hot-badge"
       default:
@@ -79,12 +75,8 @@ export default function GuideCard({ id, title, price, image, category, rating, d
   const getDescriptionClass = () => {
     switch (category.toLowerCase()) {
       case "discord":
-        return "text-blue-200"
-      case "snapchat":
         return "text-red-200"
-      case "robux":
-        return "text-green-200"
-      case "uber eats":
+      case "snapchat":
         return "text-red-200"
       case "pack complet":
         return "text-red-200"
@@ -94,7 +86,7 @@ export default function GuideCard({ id, title, price, image, category, rating, d
   }
 
   return (
-    <Card className="overflow-hidden h-full flex flex-col bg-gradient-to-br from-gray-950 via-blue-950/30 to-green-950 border-blue-800/50 text-white">
+    <Card className="overflow-hidden h-full flex flex-col bg-gradient-to-br from-black via-red-950/30 to-gray-950 border-red-800/50 text-white">
       <Link href={`/guides/${id}`}>
         <div className="overflow-hidden h-[200px] relative">
           {category.toLowerCase() === "pack complet" && (
@@ -117,7 +109,7 @@ export default function GuideCard({ id, title, price, image, category, rating, d
         <div className="flex justify-between items-start mb-2">
           <Badge
             variant="outline"
-            className="bg-gradient-to-r from-blue-800 via-red-800 to-green-800 text-blue-100 border-blue-700/50 hover:from-blue-700 hover:via-red-700 hover:to-green-700"
+            className="bg-gradient-to-r from-red-800 via-black to-gray-800 text-red-100 border-red-700/50 hover:from-red-700 hover:via-gray-900 hover:to-black"
           >
             {category}
           </Badge>
@@ -137,7 +129,7 @@ export default function GuideCard({ id, title, price, image, category, rating, d
       <CardFooter className="p-4 pt-0 mt-auto">
         <Button
           onClick={handleAddToCart}
-          className={`w-full ${isInCart ? "bg-gradient-to-r from-green-600 via-red-600 to-blue-600 hover:from-green-700 hover:via-red-700 hover:to-blue-700" : "bg-gradient-to-r from-blue-600 via-red-600 to-green-600 hover:from-blue-700 hover:via-red-700 hover:to-green-700"}`}
+          className={`w-full ${isInCart ? "bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black" : "bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black"}`}
           disabled={isLoading}
         >
           {isLoading ? (

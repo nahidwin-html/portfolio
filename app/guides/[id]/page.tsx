@@ -13,15 +13,15 @@ import { toast } from "@/components/ui/use-toast"
 const guidesData = {
   "1": {
     id: "1",
-    title: "Discord Nitro à -50%",
-    price: 3,
-    image: "/images/discord-nitro.png",
+    title: "Discord Nitro à -78%",
+    price: 2.2,
+    image: "/images/discord-nitro-new.png",
     category: "Discord",
     rating: 4.8,
     description:
-      "Guide complet pour obtenir Discord Nitro à moitié prix grâce aux offres promotionnelles et programmes partenaires.",
+      "Guide complet pour obtenir Discord Nitro à seulement 2,20€ au lieu de 9,99€ grâce aux offres promotionnelles et programmes partenaires.",
     fullDescription:
-      "Ce guide détaillé vous explique comment obtenir Discord Nitro à seulement 3€ au lieu de 9,99€ par mois. Vous découvrirez les meilleures offres promotionnelles, les programmes partenaires et les astuces pour maximiser vos économies. Toutes les méthodes sont 100% légitimes et respectent les conditions d'utilisation de Discord.",
+      "Ce guide détaillé vous explique comment obtenir Discord Nitro à seulement 2,20€ au lieu de 9,99€ par mois. Vous découvrirez les meilleures offres promotionnelles, les programmes partenaires et les astuces pour maximiser vos économies. Toutes les méthodes sont 100% légitimes et respectent les conditions d'utilisation de Discord.",
     features: [
       "Accès à des offres promotionnelles exclusives",
       "Méthodes pour combiner plusieurs réductions",
@@ -56,71 +56,25 @@ const guidesData = {
     color: "red",
     paymentLink: "",
   },
-  "3": {
-    id: "3",
-    title: "Robux à prix réduit",
-    price: 5,
-    image: "/images/robux.png",
-    category: "Robux",
-    rating: 4.9,
-    description:
-      "Guide pour obtenir des Robux moins chers via des cartes cadeaux en promotion et programmes de fidélité.",
-    fullDescription:
-      "Ce guide vous montre comment obtenir des Robux à prix réduit grâce à des méthodes légitimes et sécurisées. Vous apprendrez à utiliser les programmes de fidélité, les offres promotionnelles et les cartes cadeaux à prix réduit pour maximiser vos économies sur Roblox.",
-    features: [
-      "Techniques pour obtenir jusqu'à 70% de réduction sur les Robux",
-      "Méthodes pour utiliser les programmes de cashback",
-      "Astuces pour profiter des offres limitées",
-      "Guide complet avec exemples concrets",
-      "Conseils pour éviter les arnaques",
-    ],
-    pages: 18,
-    lastUpdate: "28/04/2025",
-    color: "green",
-    paymentLink: "https://buy.stripe.com/test_6oUfZjbdXgvic5O80MfEk01",
-  },
-  "5": {
-    id: "5",
-    title: "Uber Eats à 2€",
-    price: 2,
-    image: "/images/uber-eats.png",
-    category: "Uber Eats",
-    rating: 4.9,
-    description:
-      "Technique exclusive pour obtenir des repas Uber Eats à seulement 2€ grâce aux codes promo et offres spéciales.",
-    fullDescription:
-      "Apprenez comment commander sur Uber Eats et payer seulement 2€ pour vos repas. Ce guide vous révèle des techniques exclusives pour combiner les codes promo, les offres spéciales et les programmes de fidélité afin de réduire drastiquement le coût de vos commandes.",
-    features: [
-      "Méthodes pour obtenir des codes promo illimités",
-      "Techniques pour combiner plusieurs réductions",
-      "Astuces pour maximiser les programmes de fidélité",
-      "Guide pas à pas avec captures d'écran",
-      "Mise à jour mensuelle avec les nouveaux codes",
-    ],
-    pages: 10,
-    lastUpdate: "10/05/2025",
-    color: "red",
-    paymentLink: "",
-  },
   "6": {
     id: "6",
     title: "Full Pack Tech",
-    price: 7.5,
-    image: "/images/discord-nitro.png",
+    price: 3.5,
+    image: "/images/discord-nitro-new.png",
     category: "Pack Complet",
     rating: 5.0,
     description:
-      "Obtenez TOUS nos guides techniques dans un seul pack à prix réduit! Inclut Discord Nitro, Snapchat+, Robux, Uber Eats et bien plus encore.",
+      "Obtenez TOUS nos guides techniques dans un seul pack à prix réduit! Inclut Discord Nitro et Snapchat+ avec des bonus exclusifs.",
     fullDescription:
-      "Le Full Pack Tech est notre offre la plus complète. Il inclut tous nos guides actuels et futurs à un prix imbattable. Vous économiserez plus de 70% par rapport à l'achat individuel des guides et vous bénéficierez de mises à jour gratuites à vie.",
+      "Le Full Pack Tech est notre offre la plus complète. Il inclut tous nos guides actuels et futurs à un prix imbattable. Vous économiserez plus de 60% par rapport à l'achat individuel des guides et vous bénéficierez de mises à jour gratuites à vie.",
     features: [
-      "Accès à tous nos guides actuels (Discord Nitro, Snapchat+, Robux, Uber Eats)",
+      "Accès à tous nos guides actuels (Discord Nitro, Snapchat+)",
       "Accès aux futurs guides sans frais supplémentaires",
       "Mises à jour gratuites à vie",
       "Support prioritaire",
       "Bonus exclusifs et astuces supplémentaires",
     ],
-    pages: 55,
+    pages: 30,
     lastUpdate: "12/05/2025",
     color: "red",
     isHot: true,
@@ -291,8 +245,8 @@ export default function GuidePage({ params }: { params: { id: string } }) {
                         <p className="text-3xl font-bold">{guide.price.toFixed(2)} €</p>
                         {guide.isHot && (
                           <>
-                            <p className="text-lg line-through text-gray-400 ml-2">20.00 €</p>
-                            <Badge className="ml-2 bg-red-600 text-white">-50%</Badge>
+                            <p className="text-lg line-through text-gray-400 ml-2">6.00 €</p>
+                            <Badge className="ml-2 bg-red-600 text-white">-42%</Badge>
                           </>
                         )}
                       </div>
