@@ -22,7 +22,7 @@ export default function Home() {
       addItem({
         id: "full-pack",
         title: "Full Pack Tech",
-        price: 3.5,
+        price: 2.0,
         image: "/images/discord-nitro-new.png",
         category: "Pack Complet",
       })
@@ -189,16 +189,16 @@ export default function Home() {
                       <span>5.0</span>
                     </div>
                   </div>
-                  <h3 className="text-2xl font-bold">Full Pack Tech à 3,50€</h3>
+                  <h3 className="text-2xl font-bold">Full Pack Tech à 2,00€</h3>
                   <p className="text-gray-300">
                     Obtenez TOUS nos guides techniques dans un seul pack à prix réduit! Inclut Discord Nitro et
-                    Snapchat+ avec des bonus exclusifs. Économisez plus de 60% sur le prix des guides individuels.
+                    Snapchat+ avec des bonus exclusifs. Économisez plus de 65% sur le prix des guides individuels.
                   </p>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center">
-                      <p className="text-3xl font-bold text-red-500">3.50 €</p>
+                      <p className="text-3xl font-bold text-red-500">2.00 €</p>
                       <p className="text-lg line-through text-gray-500 ml-2">6.00 €</p>
-                      <Badge className="ml-2 bg-red-600 text-white">-42%</Badge>
+                      <Badge className="ml-2 bg-red-600 text-white">-67%</Badge>
                     </div>
                   </div>
                   <Button

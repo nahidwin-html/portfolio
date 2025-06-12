@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
 import CryptoOption from "./crypto-option"
+import PayPalButton from "@/components/paypal-button"
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCart()
@@ -59,6 +60,7 @@ export default function CheckoutPage() {
           orderId,
           items,
           totalAmount: getTotalPrice(),
+          paymentMethod: paymentMethod === "card" ? "Carte bancaire" : "Paiement mobile",
         }),
       })
 
@@ -83,22 +85,31 @@ export default function CheckoutPage() {
     }
   }
 
+  const handlePayPalSuccess = (details: any) => {
+    setIsComplete(true)
+    // La redirection est gérée dans le composant PayPalButton
+  }
+
+  const handlePayPalError = (error: any) => {
+    console.error("Erreur PayPal:", error)
+  }
+
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-red-950 to-gray-950 text-white">
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-950 to-gray-900 text-white">
         <div className="container mx-auto py-16 px-4 max-w-3xl">
           <div className="text-center space-y-6">
             <div className="flex justify-center">
-              <div className="rounded-full bg-gradient-to-r from-red-600 to-black p-4">
+              <div className="rounded-full bg-gradient-to-r from-green-600 to-gray-800 p-4">
                 <CheckCircle className="h-16 w-16" />
               </div>
             </div>
             <h1 className="text-3xl font-bold">Paiement réussi !</h1>
-            <p className="text-xl text-red-200">
+            <p className="text-xl text-gray-300">
               Merci pour votre achat. Vous recevrez vos guides par email dans les prochaines minutes.
             </p>
             <Link href="/">
-              <Button className="bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black mt-4">
+              <Button className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 hover:from-gray-800 hover:via-gray-700 hover:to-red-900 mt-4">
                 Retour à l'accueil
               </Button>
             </Link>
@@ -109,7 +120,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-red-950 to-gray-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-950 to-gray-900 text-white">
       <div className="container mx-auto py-8 px-4">
         <Link href="/cart" className="inline-flex items-center text-red-500 hover:text-red-400 mb-6">
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -120,7 +131,7 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-red-950/30 to-gray-950/30 border border-red-800/50 rounded-lg p-6 mb-6">
+            <div className="bg-gradient-to-br from-black/60 via-gray-950/40 to-gray-900/30 border border-gray-800 rounded-lg p-6 mb-6">
               <h2 className="text-xl font-bold mb-4">Informations client</h2>
               <div className="space-y-4 mb-6">
                 <div className="space-y-2">
@@ -132,7 +143,7 @@ export default function CheckoutPage() {
                     onChange={handleCustomerInfoChange}
                     placeholder="Votre nom"
                     required
-                    className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
+                    className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
                   />
                 </div>
                 <div className="space-y-2">
@@ -145,9 +156,9 @@ export default function CheckoutPage() {
                     onChange={handleCustomerInfoChange}
                     placeholder="votre@email.com"
                     required
-                    className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
+                    className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
                   />
-                  <p className="text-xs text-red-200">Vos guides seront envoyés à cette adresse email.</p>
+                  <p className="text-xs text-gray-400">Vos guides seront envoyés à cette adresse email.</p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="address">Adresse (facultatif)</Label>
@@ -157,20 +168,51 @@ export default function CheckoutPage() {
                     value={customerInfo.address}
                     onChange={handleCustomerInfoChange}
                     placeholder="Votre adresse"
-                    className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
+                    className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
                   />
                 </div>
               </div>
 
               <h2 className="text-xl font-bold mb-4">Méthode de paiement</h2>
 
-              <Tabs defaultValue="card" onValueChange={setPaymentMethod} className="w-full">
-                <TabsList className="grid grid-cols-4 mb-6">
-                  <TabsTrigger value="card">Carte</TabsTrigger>
-                  <TabsTrigger value="paypal">PayPal</TabsTrigger>
-                  <TabsTrigger value="crypto">Crypto</TabsTrigger>
-                  <TabsTrigger value="mobile">Mobile</TabsTrigger>
+              <Tabs defaultValue="paypal" onValueChange={setPaymentMethod} className="w-full">
+                <TabsList className="grid grid-cols-4 mb-6 bg-gray-900/50">
+                  <TabsTrigger value="paypal" className="data-[state=active]:bg-gray-800">
+                    PayPal
+                  </TabsTrigger>
+                  <TabsTrigger value="card" className="data-[state=active]:bg-gray-800">
+                    Carte
+                  </TabsTrigger>
+                  <TabsTrigger value="crypto" className="data-[state=active]:bg-gray-800">
+                    Crypto
+                  </TabsTrigger>
+                  <TabsTrigger value="mobile" className="data-[state=active]:bg-gray-800">
+                    Mobile
+                  </TabsTrigger>
                 </TabsList>
+
+                <TabsContent value="paypal">
+                  <div className="space-y-6">
+                    <div className="text-center py-4">
+                      <div className="bg-[#003087] text-white py-3 px-6 rounded-lg inline-flex items-center text-2xl font-bold mb-4">
+                        <span className="text-[#0079C1]">Pay</span>
+                        <span className="text-[#00457C]">Pal</span>
+                      </div>
+                      <p className="text-gray-300 mb-4">
+                        Paiement sécurisé avec PayPal. Vous pouvez payer avec votre compte PayPal ou votre carte
+                        bancaire.
+                      </p>
+                    </div>
+
+                    {customerInfo.email ? (
+                      <PayPalButton onSuccess={handlePayPalSuccess} onError={handlePayPalError} />
+                    ) : (
+                      <div className="text-center py-8 bg-gray-900/30 rounded-lg border border-gray-700">
+                        <p className="text-gray-400">Veuillez renseigner votre email pour continuer avec PayPal</p>
+                      </div>
+                    )}
+                  </div>
+                </TabsContent>
 
                 <TabsContent value="card">
                   <form onSubmit={handleSubmit} className="space-y-4">
@@ -179,7 +221,7 @@ export default function CheckoutPage() {
                       <Input
                         id="cardNumber"
                         placeholder="1234 5678 9012 3456"
-                        className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
+                        className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
                         required
                       />
                     </div>
@@ -190,7 +232,7 @@ export default function CheckoutPage() {
                         <Input
                           id="expiry"
                           placeholder="MM/AA"
-                          className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
+                          className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
                           required
                         />
                       </div>
@@ -199,7 +241,7 @@ export default function CheckoutPage() {
                         <Input
                           id="cvc"
                           placeholder="123"
-                          className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
+                          className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
                           required
                         />
                       </div>
@@ -210,7 +252,7 @@ export default function CheckoutPage() {
                       <Input
                         id="cardName"
                         placeholder="John Doe"
-                        className="bg-gradient-to-br from-red-950/50 to-gray-950/50 border-red-800/50 text-white"
+                        className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 border-gray-700 text-white"
                         required
                       />
                     </div>
@@ -218,7 +260,7 @@ export default function CheckoutPage() {
                     <div className="pt-4">
                       <Button
                         type="submit"
-                        className="w-full bg-gradient-to-r from-red-600 via-black to-gray-800 hover:from-red-700 hover:via-gray-900 hover:to-black"
+                        className="w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 hover:from-gray-800 hover:via-gray-700 hover:to-red-900"
                         disabled={isProcessing || !customerInfo.name || !customerInfo.email}
                       >
                         {isProcessing ? (
@@ -232,28 +274,11 @@ export default function CheckoutPage() {
                       </Button>
                     </div>
 
-                    <div className="flex items-center justify-center text-sm text-red-200 mt-4">
+                    <div className="flex items-center justify-center text-sm text-gray-400 mt-4">
                       <Lock className="h-4 w-4 mr-2" />
                       Paiement sécurisé par SSL
                     </div>
                   </form>
-                </TabsContent>
-
-                <TabsContent value="paypal">
-                  <div className="text-center py-8 space-y-6">
-                    <div className="bg-[#003087] text-white py-3 px-6 rounded-lg inline-flex items-center text-2xl font-bold">
-                      <span className="text-[#0079C1]">Pay</span>
-                      <span className="text-[#00457C]">Pal</span>
-                    </div>
-                    <p className="text-red-200">Vous serez redirigé vers PayPal pour finaliser votre paiement.</p>
-                    <Button
-                      onClick={handleSubmit}
-                      className="bg-[#0070BA] hover:bg-[#005ea6] text-white"
-                      disabled={isProcessing || !customerInfo.name || !customerInfo.email}
-                    >
-                      {isProcessing ? "Traitement en cours..." : `Payer avec PayPal (${getTotalPrice().toFixed(2)} €)`}
-                    </Button>
-                  </div>
                 </TabsContent>
 
                 <TabsContent value="crypto">
@@ -317,7 +342,7 @@ export default function CheckoutPage() {
                       Google Pay
                     </Button>
                   </div>
-                  <p className="text-center text-red-200 text-sm mt-4">
+                  <p className="text-center text-gray-400 text-sm mt-4">
                     Vous serez redirigé vers votre application de paiement mobile.
                   </p>
                 </TabsContent>
@@ -326,7 +351,7 @@ export default function CheckoutPage() {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-gradient-to-br from-red-950/30 to-gray-950/30 border border-red-800/50 rounded-lg p-6 sticky top-8">
+            <div className="bg-gradient-to-br from-black/60 via-gray-950/40 to-gray-900/30 border border-gray-800 rounded-lg p-6 sticky top-8">
               <h2 className="text-xl font-bold mb-4">Récapitulatif</h2>
 
               <div className="space-y-4 mb-6">
@@ -334,21 +359,21 @@ export default function CheckoutPage() {
                   <div key={item.id} className="flex justify-between">
                     <div>
                       <p className="font-medium">{item.title}</p>
-                      <p className="text-sm text-red-200">{item.category}</p>
+                      <p className="text-sm text-gray-400">{item.category}</p>
                     </div>
                     <p className="font-bold">{item.price.toFixed(2)} €</p>
                   </div>
                 ))}
               </div>
 
-              <div className="border-t border-red-800/50 pt-4 mb-6">
+              <div className="border-t border-gray-700 pt-4 mb-6">
                 <div className="flex justify-between font-bold text-lg">
                   <p>Total</p>
                   <p>{getTotalPrice().toFixed(2)} €</p>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-red-900/20 to-black/20 p-4 rounded-lg text-sm text-red-200 space-y-2">
+              <div className="bg-gradient-to-r from-gray-900/20 to-gray-800/20 p-4 rounded-lg text-sm text-gray-400 space-y-2">
                 <div className="flex items-start">
                   <Lock className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0" />
                   <p>Paiement 100% sécurisé avec cryptage SSL</p>

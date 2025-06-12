@@ -7,7 +7,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY as string)
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { customerEmail, customerName, orderId, items, totalAmount } = body
+    const { customerEmail, customerName, orderId, items, totalAmount, paymentMethod, transactionId } = body
 
     // Générer le contenu HTML pour les articles commandés
     const itemsHtml = items
@@ -36,6 +36,8 @@ export async function POST(request: Request) {
         
         Numéro de commande: ${orderId}
         Montant total: ${totalAmount.toFixed(2)} €
+        Méthode de paiement: ${paymentMethod || "Non spécifiée"}
+        ${transactionId ? `ID de transaction: ${transactionId}` : ""}
         
         Vous trouverez vos guides en pièce jointe à cet email.
         
@@ -44,17 +46,22 @@ export async function POST(request: Request) {
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
           <div style="text-align: center; margin-bottom: 20px;">
-            <h1 style="color: #0070f3; margin-bottom: 5px;">T3CH-FRANCE</h1>
+            <h1 style="color: #ef4444; margin-bottom: 5px;">T3CH-FRANCE</h1>
             <p style="color: #666;">Votre commande est confirmée</p>
           </div>
           
-          <div style="background: linear-gradient(to right, #0070f3, #10b981); color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+          <div style="background: linear-gradient(to right, #374151, #ef4444); color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
             <h2 style="margin: 0;">Merci pour votre commande, ${customerName}!</h2>
           </div>
           
           <p>Votre commande <strong>#${orderId}</strong> a été traitée avec succès.</p>
           
-          <h3 style="margin-top: 30px; border-bottom: 2px solid #0070f3; padding-bottom: 10px;">Détails de la commande</h3>
+          <div style="margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
+            <p><strong>Méthode de paiement:</strong> ${paymentMethod || "Non spécifiée"}</p>
+            ${transactionId ? `<p><strong>ID de transaction:</strong> ${transactionId}</p>` : ""}
+          </div>
+          
+          <h3 style="margin-top: 30px; border-bottom: 2px solid #ef4444; padding-bottom: 10px;">Détails de la commande</h3>
           
           <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
             <thead>
@@ -80,7 +87,7 @@ export async function POST(request: Request) {
             <p>Vos guides sont disponibles en pièce jointe à cet email. Vous pouvez également les télécharger depuis votre compte sur notre site.</p>
           </div>
           
-          <div style="margin-top: 30px; text-align: center;">
+          <div style="margin-top: 30px; text-center;">
             <p>Des questions? Contactez notre équipe de support à <a href="mailto:support@t3ch-france.com">support@t3ch-france.com</a></p>
           </div>
           

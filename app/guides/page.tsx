@@ -41,7 +41,7 @@ export default function GuidesPage() {
           <GuideCard
             id="6"
             title="Full Pack Tech"
-            price={3.5}
+            price={2.0}
             image="/images/discord-nitro-new.png"
             category="Pack Complet"
             rating={5.0}
